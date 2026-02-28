@@ -231,6 +231,7 @@ function init() {
 
   // Initial state
   inputEl.value = SAMPLES.json
+  updateInputSize()
   // Auto-run on load
   runConvert()
 }
