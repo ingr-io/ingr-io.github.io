@@ -357,16 +357,7 @@ body::before {
     letter-spacing: 0.08em;
   }
   
-  .hero-convert-btn .arrow-start {
-    font-size: 13px;
-    order: 1;
-    display: none;
-  }
-  
-  .hero-convert-btn .arrow-end {
-    content: "⇓";
-    font-size: 13px;
-    order: 3;
+  .hero-convert-btn .arrow-desktop {
     display: none;
   }
   
@@ -391,13 +382,7 @@ body::before {
     letter-spacing: 0.06em;
   }
   
-  .hero-swap-btn .arrow-start {
-    font-size: 13px;
-    display: none;
-  }
-  
-  .hero-swap-btn .arrow-end {
-    font-size: 13px;
+  .hero-swap-btn .arrow-desktop {
     display: none;
   }
 }
