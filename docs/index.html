@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>INGR — Compact Git-Friendly Record Format</title>
   <meta name="description" content="INGR is a compact, deterministic, self-describing, Git-friendly fixed-line record format for structured data." />
-  <script type="module" crossorigin src="/assets/main-D_JCkQ1P.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/highlight-BeKEGlZX.js">
-  <link rel="stylesheet" crossorigin href="/assets/highlight-D_TqLEOU.css">
+  <script type="module" crossorigin src="/assets/main-BP2B85yn.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/highlight-B4nNwJx8.js">
+  <link rel="stylesheet" crossorigin href="/assets/highlight-CGwtp3uy.css">
 </head>
 <body style="position:relative;z-index:1;">
 
@@ -62,17 +62,23 @@
 
     <!-- Center controls -->
     <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:20px 16px;background:var(--surface);border-left:1px solid var(--border);border-right:1px solid var(--border);">
-      <button id="hero-convert" class="btn-primary"
+      <button id="hero-convert" class="btn-primary hero-convert-btn"
         style="display:flex;flex-direction:column;align-items:center;padding:16px 10px;letter-spacing:0.12em;line-height:1.4;">
-        <span style="font-size:13px;">⇒</span>
-        <span>C</span><span>O</span><span>N</span><span>V</span><span>E</span><span>R</span><span>T</span>
-        <span style="font-size:13px;">⇒</span>
+        <span class="arrow-desktop" style="font-size:13px;">⇒</span>
+        <span class="btn-text-vertical">C</span><span class="btn-text-vertical">O</span><span class="btn-text-vertical">N</span><span class="btn-text-vertical">V</span><span class="btn-text-vertical">E</span><span class="btn-text-vertical">R</span><span class="btn-text-vertical">T</span>
+        <span class="arrow-desktop" style="font-size:13px;">⇒</span>
+        <span class="btn-mobile" style="display:none;font-size:13px;">⇓</span>
+        <span class="btn-text-mobile" style="display:none;">CONVERT</span>
+        <span class="btn-mobile" style="display:none;font-size:13px;">⇓</span>
       </button>
-      <button id="hero-swap" class="btn-ghost"
+      <button id="hero-swap" class="btn-ghost hero-swap-btn"
         style="display:flex;flex-direction:column;align-items:center;padding:12px 8px;font-size:11px;line-height:1.5;">
-        <span style="font-size:13px;">⇐</span>
-        <span>S</span><span>W</span><span>A</span><span>P</span>
-        <span style="font-size:13px;">⇒</span>
+        <span class="arrow-desktop" style="font-size:13px;">⇐</span>
+        <span class="btn-text-vertical">S</span><span class="btn-text-vertical">W</span><span class="btn-text-vertical">A</span><span class="btn-text-vertical">P</span>
+        <span class="arrow-desktop" style="font-size:13px;">⇒</span>
+        <span class="btn-mobile" style="display:none;font-size:13px;">⇑</span>
+        <span class="btn-text-mobile" style="display:none;">SWAP</span>
+        <span class="btn-mobile" style="display:none;font-size:13px;">⇓</span>
       </button>
     </div>
 

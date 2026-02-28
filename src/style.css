@@ -162,6 +162,24 @@ body::before {
 .btn-primary:hover { opacity: 0.9; }
 .btn-primary:active { transform: scale(0.98); }
 
+/* Hero buttons: desktop vs mobile */
+.hero-convert-btn .btn-text-vertical,
+.hero-swap-btn .btn-text-vertical {
+  display: inline;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
+.hero-convert-btn .arrow-desktop,
+.hero-swap-btn .arrow-desktop {
+  font-size: 13px;
+}
+
+.hero-convert-btn .btn-mobile,
+.hero-swap-btn .btn-mobile {
+  display: none;
+}
+
 .btn-ghost {
   background: transparent;
   color: var(--text-muted);
@@ -307,10 +325,79 @@ body::before {
   #converter-grid > div:nth-child(2) button {
     writing-mode: horizontal-tb !important;
     transform: none !important;
-    flex-direction: column;
+    flex-direction: row !important;
+    gap: 8px;
+    padding: 12px 16px !important;
+    letter-spacing: normal !important;
   }
   
   #converter-grid > div:nth-child(2) button span:first-child {
     writing-mode: horizontal-tb;
+  }
+  
+  /* Hero buttons on mobile: horizontal with vertical arrows */
+  .hero-convert-btn {
+    flex-direction: row !important;
+    gap: 8px;
+    padding: 12px 16px !important;
+    letter-spacing: normal !important;
+  }
+  
+  .hero-convert-btn .btn-text-vertical {
+    display: none;
+  }
+  
+  .hero-convert-btn .btn-mobile {
+    display: inline !important;
+  }
+  
+  .hero-convert-btn .btn-text-mobile {
+    display: inline !important;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+  }
+  
+  .hero-convert-btn .arrow-start {
+    font-size: 13px;
+    order: 1;
+    display: none;
+  }
+  
+  .hero-convert-btn .arrow-end {
+    content: "⇓";
+    font-size: 13px;
+    order: 3;
+    display: none;
+  }
+  
+  .hero-swap-btn {
+    flex-direction: row !important;
+    gap: 8px;
+    padding: 12px 16px !important;
+    letter-spacing: normal !important;
+  }
+  
+  .hero-swap-btn .btn-text-vertical {
+    display: none;
+  }
+  
+  .hero-swap-btn .btn-mobile {
+    display: inline !important;
+  }
+  
+  .hero-swap-btn .btn-text-mobile {
+    display: inline !important;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
+  
+  .hero-swap-btn .arrow-start {
+    font-size: 13px;
+    display: none;
+  }
+  
+  .hero-swap-btn .arrow-end {
+    font-size: 13px;
+    display: none;
   }
 }

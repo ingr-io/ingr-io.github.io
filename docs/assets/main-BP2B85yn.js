@@ -1,4 +1,4 @@
-import{F as B,c as S,h as w}from"./highlight-BeKEGlZX.js";const C=["json","jsonl","csv","tsv","yaml","xml"],h={json:`[
+import{F as B,c as S,h as w}from"./highlight-B4nNwJx8.js";const C=["json","jsonl","csv","tsv","yaml","xml"],h={json:`[
   { "id": "u1", "name": "Alice Chen", "role": "engineer", "active": true },
   { "id": "u2", "name": "Bob Marsh",  "role": "designer", "active": true },
   { "id": "u3", "name": "Carol Wu",   "role": "manager",  "active": false }
