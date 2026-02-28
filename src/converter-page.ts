@@ -17,6 +17,24 @@ const FORMAT_EXTENSIONS: Record<Format, string> = {
   csv: '.csv', tsv: '.tsv', yaml: '.yaml', xml: '.xml', markdown: '.md',
 }
 
+function formatBytes(bytes: number): string {
+  if (bytes === 0) return '0 bytes'
+  const k = 1024
+  const sizes = ['bytes', 'KB', 'MB', 'GB']
+  const i = Math.floor(Math.log(Math.abs(bytes)) / Math.log(k))
+  const value = bytes / Math.pow(k, i)
+  const parts = []
+  if (i >= 2) { // MB or higher
+    const wholeValue = Math.floor(value)
+    const remainder = Math.round((value - wholeValue) * k)
+    if (wholeValue > 0) parts.push(`${wholeValue}MB`)
+    if (remainder > 0) parts.push(`${remainder}${sizes[i - 1]}`)
+  } else {
+    parts.push(`${Math.round(value)}${sizes[i]}`)
+  }
+  return parts.join(' ')
+}
+
 function init() {
   // Elements
   const inputArea    = document.getElementById('input-area')    as HTMLTextAreaElement
@@ -41,6 +59,7 @@ function init() {
   let inputFormat: Format | null = null
   let outputFormat: Format = (localStorage.getItem(OUTPUT_FORMAT_STORAGE_KEY) as Format) ?? 'ingr'
   let rawOutput = ''
+
 
   function setOutput(text: string, isError = false) {
     rawOutput = isError ? '' : text
@@ -154,7 +173,17 @@ function init() {
       setOutput(result)
       const lines = result.split('\n').length
       const bytes = new TextEncoder().encode(result).length
-      outputStats.textContent = `${lines} lines · ${(bytes / 1024).toFixed(1)} KB`
+      const inputBytes = new TextEncoder().encode(inputArea.value).length
+      
+      // Calculate size change if input exists
+      let sizeInfo = `${lines} lines · ${formatBytes(bytes)}`
+      if (inputBytes > 0) {
+        const diff = bytes - inputBytes
+        const percent = Math.round((diff / inputBytes) * 100)
+        const sign = diff < 0 ? '−' : '+'
+        sizeInfo += ` · ${sign}${Math.abs(percent)}% (${sign}${formatBytes(Math.abs(diff))})`
+      }
+      outputStats.textContent = sizeInfo
       updateOutputLabel()
     } catch (e) {
       setOutput(e instanceof Error ? e.message : String(e), true)

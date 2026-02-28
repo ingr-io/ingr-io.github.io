@@ -42,6 +42,49 @@ u3\tCarol Wu\tmanager\tfalse`,
 </users>`,
 }
 
+function formatBytes(bytes: number): string {
+  if (bytes === 0) return '0 bytes'
+  const k = 1024
+  const sizes = ['bytes', 'KB', 'MB', 'GB']
+  const i = Math.floor(Math.log(Math.abs(bytes)) / Math.log(k))
+  const value = bytes / Math.pow(k, i)
+  const parts = []
+  if (i >= 2) { // MB or higher
+    const wholeValue = Math.floor(value)
+    const remainder = Math.round((value - wholeValue) * k)
+    if (wholeValue > 0) parts.push(`${wholeValue}MB`)
+    if (remainder > 0) parts.push(`${remainder}${sizes[i - 1]}`)
+  } else {
+    parts.push(`${Math.round(value)}${sizes[i]}`)
+  }
+  return parts.join(' ')
+}
+
+function updateSizeInfo(inputSize: number, outputSize: number) {
+  const sizeInfoEl = document.getElementById('hero-size-info')!
+  const sizeChangeEl = document.getElementById('hero-size-change')!
+  
+  if (!outputSize || !inputSize) {
+    sizeInfoEl.style.display = 'none'
+    return
+  }
+  
+  const diff = outputSize - inputSize
+  const percent = Math.round((diff / inputSize) * 100)
+  const color = diff < 0 ? 'var(--success)' : 'var(--error)'
+  const label = diff < 0 ? 'Size saving' : 'Size increase'
+  const sign = diff < 0 ? '−' : '+'
+  
+  sizeChangeEl.innerHTML = `
+    <span style="color:${color};">${label} <strong>${Math.abs(percent)}%</strong></span>
+    <span style="color:var(--text-muted);">
+      (<span style="color:${color};">${sign}${formatBytes(Math.abs(diff))}</span>, 
+      ${formatBytes(inputSize)} → ${formatBytes(outputSize)})
+    </span>
+  `
+  sizeInfoEl.style.display = 'block'
+}
+
 function init() {
   const tabsEl = document.getElementById('hero-tabs')!
   const inputEl = document.getElementById('hero-input') as HTMLTextAreaElement
@@ -88,6 +131,7 @@ function init() {
       }
       
       setOutput(result)
+      updateSizeInfo(new TextEncoder().encode(inputEl.value).length, new TextEncoder().encode(result).length)
     } catch (e) {
       setOutput(e instanceof Error ? e.message : String(e), true)
     }
