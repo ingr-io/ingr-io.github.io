@@ -72,22 +72,24 @@ function updateSizeInfo(inputSize: number, outputSize: number, output?: string) 
   // For INGR format, exclude header and footer from size calculation
   let dataSizeForCalc = outputSize
   if (output) {
-    const lines = output.split('\n')
-    // Find where data ends (footer starts)
-    let footerStart = lines.length
-    for (let i = lines.length - 1; i >= 1; i--) {
-      if (/^#\s+\d+\s+records?$/.test(lines[i].trim())) {
-        footerStart = i
-        break
-      }
-    }
-    // Calculate data size: exclude header (line 0) and footer
-    const dataLines = lines.slice(1, footerStart)
-    if (dataLines.length > 0) {
-      // Join with newlines but don't add trailing newline (serializeIngr doesn't have one)
-      dataSizeForCalc = new TextEncoder().encode(dataLines.join('\n')).length + 1
+    // Find header end (position after columns list)
+    const headerEndMatch = output.match(/:\s*/)
+    if (!headerEndMatch) {
+      dataSizeForCalc = outputSize
     } else {
-      dataSizeForCalc = 0
+      const headerEndPos = output.indexOf('\n', headerEndMatch.index!) + 1
+      
+      // Find footer start (first line from end starting with '#' but not "# N records")
+      let footerStartPos = output.length
+      const lines = output.split('\n')
+      for (let i = lines.length - 1; i >= 0; i--) {
+        if (lines[i].startsWith('#') && !/^#\s+\d+\s+records?$/.test(lines[i].trim())) {
+          footerStartPos = output.lastIndexOf(lines[i])
+          break
+        }
+      }
+      
+      dataSizeForCalc = footerStartPos - headerEndPos
     }
   }
   

@@ -178,20 +178,22 @@ function init() {
       // For INGR format, calculate data size excluding header and footer
       let dataBytes = bytes
       if (outputFormat === 'ingr') {
-        const lines = result.split('\n')
-        let footerStart = lines.length
-        for (let i = lines.length - 1; i >= 1; i--) {
-          if (/^#\s+\d+\s+records?$/.test(lines[i].trim())) {
-            footerStart = i
-            break
+        // Find header end (position after columns list)
+        const headerEndMatch = result.match(/:\s*/)
+        if (headerEndMatch) {
+          const headerEndPos = result.indexOf('\n', headerEndMatch.index!) + 1
+          
+          // Find footer start (first line from end starting with '#' but not "# N records")
+          let footerStartPos = result.length
+          const lines = result.split('\n')
+          for (let i = lines.length - 1; i >= 0; i--) {
+            if (lines[i].startsWith('#') && !/^#\s+\d+\s+records?$/.test(lines[i].trim())) {
+              footerStartPos = result.lastIndexOf(lines[i])
+              break
+            }
           }
-        }
-        const dataLines = lines.slice(1, footerStart)
-        if (dataLines.length > 0) {
-          // Join with newlines but add +1 for the newline between header and first data line
-          dataBytes = new TextEncoder().encode(dataLines.join('\n')).length + 1
-        } else {
-          dataBytes = 0
+          
+          dataBytes = footerStartPos - headerEndPos
         }
       }
       
