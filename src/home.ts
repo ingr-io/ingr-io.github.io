@@ -73,11 +73,7 @@ function updateSizeInfo(inputSize: number, outputSize: number) {
   const label = diff < 0 ? 'Size saving' : 'Size increase'
   
   sizeChangeEl.innerHTML = `
-    <span style="color:${color};">${label} <strong>${Math.abs(percent)}%</strong></span>
-    <span style="color:var(--text-muted);">
-      (<span style="color:${color};">${formatBytes(Math.abs(diff))}</span>, 
-      ${formatBytes(inputSize)} → ${formatBytes(outputSize)})
-    </span>
+    <span style="color:${color};">${label} <strong>${Math.abs(percent)}%</strong> (<span style="color:${color};">${formatBytes(Math.abs(diff))}</span>)</span>
   `
   sizeInfoEl.style.display = 'block'
 }
