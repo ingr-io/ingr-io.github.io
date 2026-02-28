@@ -188,7 +188,8 @@ function init() {
         }
         const dataLines = lines.slice(1, footerStart)
         if (dataLines.length > 0) {
-          dataBytes = new TextEncoder().encode(dataLines.join('\n') + '\n').length
+          // Join with newlines but add +1 for the newline between header and first data line
+          dataBytes = new TextEncoder().encode(dataLines.join('\n')).length + 1
         } else {
           dataBytes = 0
         }

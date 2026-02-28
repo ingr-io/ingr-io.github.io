@@ -82,10 +82,10 @@ function updateSizeInfo(inputSize: number, outputSize: number, output?: string) 
       }
     }
     // Calculate data size: exclude header (line 0) and footer
-    // Include newlines between lines and after the last data line
     const dataLines = lines.slice(1, footerStart)
     if (dataLines.length > 0) {
-      dataSizeForCalc = new TextEncoder().encode(dataLines.join('\n') + '\n').length
+      // Join with newlines but don't add trailing newline (serializeIngr doesn't have one)
+      dataSizeForCalc = new TextEncoder().encode(dataLines.join('\n')).length + 1
     } else {
       dataSizeForCalc = 0
     }
