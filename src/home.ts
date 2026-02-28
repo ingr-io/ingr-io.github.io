@@ -72,12 +72,14 @@ function updateSizeInfo(inputSize: number, outputSize: number, output?: string) 
   // For INGR format, exclude header and footer from size calculation
   let dataSizeForCalc = outputSize
   if (output) {
-    // Find header end (position after columns list)
+    // Find header end (position after colon and trailing whitespace)
     const headerEndMatch = output.match(/:\s*/)
     if (!headerEndMatch) {
       dataSizeForCalc = outputSize
     } else {
-      const headerEndPos = output.indexOf('\n', headerEndMatch.index!) + 1
+      // Find newline after the colon+whitespace, then position right after it
+      const colonAndWhitespaceEnd = headerEndMatch.index! + headerEndMatch[0].length
+      const headerEndPos = output.indexOf('\n', colonAndWhitespaceEnd) + 1
       
       // Find footer start (first line from end starting with '#' but not "# N records")
       let footerStartPos = output.length

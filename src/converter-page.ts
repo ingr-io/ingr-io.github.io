@@ -178,10 +178,12 @@ function init() {
       // For INGR format, calculate data size excluding header and footer
       let dataBytes = bytes
       if (outputFormat === 'ingr') {
-        // Find header end (position after columns list)
+        // Find header end (position after colon and trailing whitespace)
         const headerEndMatch = result.match(/:\s*/)
         if (headerEndMatch) {
-          const headerEndPos = result.indexOf('\n', headerEndMatch.index!) + 1
+          // Find newline after the colon+whitespace, then position right after it
+          const colonAndWhitespaceEnd = headerEndMatch.index! + headerEndMatch[0].length
+          const headerEndPos = result.indexOf('\n', colonAndWhitespaceEnd) + 1
           
           // Find footer start (first line from end starting with '#' but not "# N records")
           let footerStartPos = result.length
