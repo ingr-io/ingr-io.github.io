@@ -35,6 +35,37 @@ function formatBytes(bytes: number): string {
   return `${Math.floor(absBytes)} bytes`
 }
 
+function getDataSize(text: string, format: Format | null): number {
+  if (!text || !format) return 0
+  
+  if (format === 'ingr') {
+    // Calculate data size excluding header before colon and footer
+    const colonMatch = text.match(/:\s*/)
+    if (!colonMatch) return 0
+    const afterColonPos = colonMatch.index! + colonMatch[0].length
+    
+    const lines = text.split('\n')
+    let footerLineIndex = -1
+    for (let i = lines.length - 1; i > 0; i--) {
+      if (lines[i].startsWith('#')) {
+        footerLineIndex = i
+        break
+      }
+    }
+    
+    let beforeFooterPos = text.length
+    if (footerLineIndex > 0) {
+      const footerLinePos = text.indexOf(lines[footerLineIndex])
+      beforeFooterPos = text.lastIndexOf('\n', footerLinePos)
+    }
+    
+    return beforeFooterPos - afterColonPos
+  }
+  
+  // For all other formats, return total length
+  return text.length
+}
+
 function init() {
   // Elements
   const inputArea    = document.getElementById('input-area')    as HTMLTextAreaElement
@@ -50,6 +81,8 @@ function init() {
   const detectStatus = document.getElementById('detect-status')!
   const outputLabel  = document.getElementById('output-format-label')!
   const outputStats  = document.getElementById('output-stats')!
+  const inputSizeEl  = document.getElementById('input-size')!
+  const outputSizeEl = document.getElementById('output-size')!
   const dropZone        = document.getElementById('drop-zone')!
   const dropOverlay     = document.getElementById('drop-overlay')!
   const fileInput       = document.getElementById('file-input') as HTMLInputElement
@@ -106,6 +139,7 @@ function init() {
     buildOutputTabs()
     updateOutputLabel()
     updateDelimiterVisibility()
+    updateInputSize()
     if (runConvert) runConversion()
   }
 
@@ -132,6 +166,16 @@ function init() {
     } else {
       outputLabel.textContent = ''
     }
+  }
+
+  function updateInputSize() {
+    const size = getDataSize(inputArea.value, inputFormat)
+    inputSizeEl.textContent = size > 0 ? `(${formatBytes(size)})` : ''
+  }
+
+  function updateOutputSize(text: string, format: Format) {
+    const size = getDataSize(text, format)
+    outputSizeEl.textContent = size > 0 ? `(${formatBytes(size)})` : ''
   }
 
   // ── Conversion ───────────────────────────────────────────────────────────
@@ -214,6 +258,7 @@ function init() {
       }
       outputStats.textContent = sizeInfo
       updateOutputLabel()
+      updateOutputSize(result, to)
     } catch (e) {
       setOutput(e instanceof Error ? e.message : String(e), true)
       outputStats.textContent = ''
@@ -328,11 +373,13 @@ function init() {
 
   delimiterCheck.addEventListener('change', runConversion)
   sha256Check.addEventListener('change', runConversion)
+  inputArea.addEventListener('input', updateInputSize)
 
   buildInputTabs()
   buildOutputTabs()
   updateOutputLabel()
   updateDelimiterVisibility()
+  updateInputSize()
 }
 
 document.addEventListener('DOMContentLoaded', init)

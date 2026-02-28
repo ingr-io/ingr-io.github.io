@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>INGR — Compact Git-Friendly Record Format</title>
   <meta name="description" content="INGR is a compact, deterministic, self-describing, Git-friendly fixed-line record format for structured data." />
-  <script type="module" crossorigin src="/assets/main-CzbwDB1i.js"></script>
+  <script type="module" crossorigin src="/assets/main-BzFmKsqy.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/highlight-BNcuc9BJ.js">
   <link rel="stylesheet" crossorigin href="/assets/highlight-_oGfd9lV.css">
 </head>
@@ -51,8 +51,9 @@
 
     <!-- Input -->
     <div>
-      <div style="background:var(--surface-2);padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;">
+      <div style="background:var(--surface-2);padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
         <span style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);">Input</span>
+        <span id="hero-input-size" style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);font-style:italic;"></span>
       </div>
       <div id="hero-tabs" class="format-tabs" style="background:var(--surface);"></div>
       <textarea id="hero-input" class="code-area" rows="12"
@@ -85,7 +86,10 @@
     <!-- Output -->
     <div>
       <div style="background:var(--surface-2);padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
-        <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);">.ingr output</span>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);">.ingr output</span>
+          <span id="hero-output-size" style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);font-style:italic;"></span>
+        </div>
         <div style="display:flex;align-items:center;gap:12px;">
           <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
             <input id="hero-delimiter" type="checkbox"

@@ -60,6 +60,36 @@ function formatBytes(bytes: number): string {
   return `${Math.floor(absBytes)} bytes`
 }
 
+function getDataSize(text: string, format: Format | null): number {
+  if (!text || !format) return 0
+  
+  if (format === 'ingr') {
+    // Calculate data size excluding header before colon and footer
+    const colonMatch = text.match(/:\s*/)
+    if (!colonMatch) return 0
+    const afterColonPos = colonMatch.index! + colonMatch[0].length
+    
+    const lines = text.split('\n')
+    let footerLineIndex = -1
+    for (let i = lines.length - 1; i > 0; i--) {
+      if (lines[i].startsWith('#')) {
+        footerLineIndex = i
+        break
+      }
+    }
+    
+    let beforeFooterPos = text.length
+    if (footerLineIndex > 0) {
+      const footerLinePos = text.indexOf(lines[footerLineIndex])
+      beforeFooterPos = text.lastIndexOf('\n', footerLinePos)
+    }
+    
+    return beforeFooterPos - afterColonPos
+  }
+  
+  return text.length
+}
+
 function updateSizeInfo(inputSize: number, outputSize: number, output?: string) {
   const sizeInfoEl = document.getElementById('hero-size-info')!
   const sizeChangeEl = document.getElementById('hero-size-change')!
@@ -117,6 +147,8 @@ function init() {
   const swapBtn = document.getElementById('hero-swap')!
   const delimiterEl = document.getElementById('hero-delimiter') as HTMLInputElement
   const sha256El = document.getElementById('hero-sha256') as HTMLInputElement
+  const inputSizeEl = document.getElementById('hero-input-size')!
+  const outputSizeEl = document.getElementById('hero-output-size')!
 
   let currentFormat: Format = 'json'
 
@@ -129,6 +161,17 @@ function init() {
     tabsEl.querySelectorAll('.format-tab').forEach(t => {
       t.classList.toggle('active', (t as HTMLElement).dataset.fmt === fmt)
     })
+    updateInputSize()
+  }
+
+  function updateInputSize() {
+    const size = getDataSize(inputEl.value, currentFormat)
+    inputSizeEl.textContent = size > 0 ? `(${formatBytes(size)})` : ''
+  }
+
+  function updateOutputSize(text: string) {
+    const size = getDataSize(text, 'ingr')
+    outputSizeEl.textContent = size > 0 ? `(${formatBytes(size)})` : ''
   }
 
   function setOutput(text: string, isError = false) {
@@ -156,6 +199,7 @@ function init() {
       
       setOutput(result)
       updateSizeInfo(new TextEncoder().encode(inputEl.value).length, new TextEncoder().encode(result).length, result)
+      updateOutputSize(result)
     } catch (e) {
       setOutput(e instanceof Error ? e.message : String(e), true)
     }
@@ -174,6 +218,7 @@ function init() {
   convertBtn.addEventListener('click', runConvert)
   delimiterEl.addEventListener('change', runConvert)
   sha256El.addEventListener('change', runConvert)
+  inputEl.addEventListener('input', updateInputSize)
 
   swapBtn.addEventListener('click', () => {
     const outVal = outputEl.textContent ?? ''
