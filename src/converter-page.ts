@@ -175,10 +175,25 @@ function init() {
       const bytes = new TextEncoder().encode(result).length
       const inputBytes = new TextEncoder().encode(inputArea.value).length
       
+      // For INGR format, calculate data size excluding header and footer
+      let dataBytes = bytes
+      if (outputFormat === 'ingr') {
+        const lines = result.split('\n')
+        let footerStart = lines.length
+        for (let i = lines.length - 1; i >= 1; i--) {
+          if (/^#\s+\d+\s+records?$/.test(lines[i].trim())) {
+            footerStart = i
+            break
+          }
+        }
+        const dataLines = lines.slice(1, footerStart)
+        dataBytes = new TextEncoder().encode(dataLines.join('\n')).length
+      }
+      
       // Calculate size change if input exists
       let sizeInfo = `${lines} lines · ${formatBytes(bytes)}`
       if (inputBytes > 0) {
-        const diff = bytes - inputBytes
+        const diff = dataBytes - inputBytes
         const percent = Math.round((diff / inputBytes) * 100)
         const sign = diff < 0 ? '−' : '+'
         sizeInfo += ` · ${sign}${Math.abs(percent)}% (${formatBytes(Math.abs(diff))})`

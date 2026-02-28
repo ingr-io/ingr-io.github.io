@@ -60,7 +60,7 @@ function formatBytes(bytes: number): string {
   return `${Math.floor(absBytes)} bytes`
 }
 
-function updateSizeInfo(inputSize: number, outputSize: number) {
+function updateSizeInfo(inputSize: number, outputSize: number, output?: string) {
   const sizeInfoEl = document.getElementById('hero-size-info')!
   const sizeChangeEl = document.getElementById('hero-size-change')!
   
@@ -69,10 +69,27 @@ function updateSizeInfo(inputSize: number, outputSize: number) {
     return
   }
   
-  const diff = outputSize - inputSize
+  // For INGR format, exclude header and footer from size calculation
+  let dataSizeForCalc = outputSize
+  if (output) {
+    const lines = output.split('\n')
+    // Find where data ends (footer starts)
+    let footerStart = lines.length
+    for (let i = lines.length - 1; i >= 1; i--) {
+      if (/^#\s+\d+\s+records?$/.test(lines[i].trim())) {
+        footerStart = i
+        break
+      }
+    }
+    // Calculate data size: exclude header (line 0) and footer
+    const dataLines = lines.slice(1, footerStart)
+    dataSizeForCalc = new TextEncoder().encode(dataLines.join('\n')).length
+  }
+  
+  const diff = dataSizeForCalc - inputSize
   const percent = Math.round((diff / inputSize) * 100)
   const color = diff < 0 ? 'var(--success)' : 'var(--error)'
-  const label = diff < 0 ? 'Size saving' : 'Size increase'
+  const label = diff < 0 ? 'Data size saved' : 'Data size increased'
   
   sizeChangeEl.innerHTML = `
     <span style="color:${color};">${label} <strong>${Math.abs(percent)}%</strong> (<span style="color:${color};">${formatBytes(Math.abs(diff))}</span>)</span>
@@ -126,7 +143,7 @@ function init() {
       }
       
       setOutput(result)
-      updateSizeInfo(new TextEncoder().encode(inputEl.value).length, new TextEncoder().encode(result).length)
+      updateSizeInfo(new TextEncoder().encode(inputEl.value).length, new TextEncoder().encode(result).length, result)
     } catch (e) {
       setOutput(e instanceof Error ? e.message : String(e), true)
     }
