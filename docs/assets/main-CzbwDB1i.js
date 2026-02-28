@@ -1,4 +1,4 @@
-import{F as R,c as w,h as $}from"./highlight-BNcuc9BJ.js";const x=["json","jsonl","csv","tsv","yaml","xml"],y={json:`[
+import{F as R,c as w,h as x}from"./highlight-BNcuc9BJ.js";const C=["json","jsonl","csv","tsv","yaml","xml"],y={json:`[
   { "id": "u1", "name": "Alice Chen", "role": "engineer", "active": true },
   { "id": "u2", "name": "Bob Marsh",  "role": "designer", "active": true },
   { "id": "u3", "name": "Carol Wu",   "role": "manager",  "active": false }
@@ -26,14 +26,14 @@ u3	Carol Wu	manager	false`,yaml:`- id: u1
   <user><id>u1</id><name>Alice Chen</name><role>engineer</role><active>true</active></user>
   <user><id>u2</id><name>Bob Marsh</name><role>designer</role><active>true</active></user>
   <user><id>u3</id><name>Carol Wu</name><role>manager</role><active>false</active></user>
-</users>`};function C(n){if(n===0)return"0 bytes";const t=Math.abs(n),r=t/(1024*1024),l=t/1024;if(t>=1024*1024){const o=Math.round(r*10)/10;return o===Math.floor(o)?`${Math.floor(o)}MB`:`${o}MB`}if(t>=1024){const o=Math.round(l*10)/10;return o===Math.floor(o)?`${Math.floor(o)}KB`:`${o}KB`}return`${Math.floor(t)} bytes`}function S(n,t,r){const l=document.getElementById("hero-size-info"),o=document.getElementById("hero-size-change");if(!t||!n){l.style.display="none";return}let c=t;if(r){const s=r.match(/:\s*/);if(!s)c=t;else{const e=s.index+s[0].length,a=r.indexOf(`
-`,e)+1;let g=r.length;const h=r.split(`
-`);for(let d=h.length-1;d>0;d--)if(h[d].startsWith("#")){g=r.lastIndexOf(h[d]);break}c=g-a}}const i=c-n,u=Math.round(i/n*100),m=i<0?"var(--success)":"var(--error)",f=i<0?"Data size saved":"Data size increased";o.innerHTML=`
-    <span style="color:${m};">${f} <strong>${Math.abs(u)}%</strong> (<span style="color:${m};">${C(Math.abs(i))}</span>)</span>
-  `,l.style.display="block"}function T(){const n=document.getElementById("hero-tabs"),t=document.getElementById("hero-input"),r=document.getElementById("hero-output"),l=document.getElementById("hero-convert"),o=document.getElementById("hero-swap"),c=document.getElementById("hero-delimiter"),i=document.getElementById("hero-sha256");let u="json";function m(e){u=e,t.value=y[e]??"",r.innerHTML="",r.classList.remove("error"),n.querySelectorAll(".format-tab").forEach(a=>{a.classList.toggle("active",a.dataset.fmt===e)})}function f(e,a=!1){r.classList.toggle("error",a),a?r.textContent=e:r.innerHTML=e?$(e):""}async function s(){try{const e={ingrDelimiter:c.checked};let a=w(t.value,u,"ingr",e);if(i.checked){const h=new TextEncoder().encode(a),d=await crypto.subtle.digest("SHA-256",h),M=Array.from(new Uint8Array(d)).map(B=>B.toString(16).padStart(2,"0")).join("");a=a+`
-# sha256:`+M}f(a),S(new TextEncoder().encode(t.value).length,new TextEncoder().encode(a).length,a)}catch(e){f(e instanceof Error?e.message:String(e),!0)}}n.innerHTML=x.map(e=>`<button class="format-tab${e===u?" active":""}" data-fmt="${e}">${R[e]}</button>`).join(""),n.addEventListener("click",e=>{const a=e.target.closest(".format-tab");a?.dataset.fmt&&(m(a.dataset.fmt),s())}),l.addEventListener("click",s),c.addEventListener("change",s),i.addEventListener("change",s),o.addEventListener("click",()=>{const e=r.textContent??"";!e||r.classList.contains("error")||(t.value=e,r.innerHTML="",r.classList.remove("error"),m("ingr"))}),t.value=y.json,s()}document.addEventListener("DOMContentLoaded",T);const v="https://raw.githubusercontent.com/ingitdb/ingitdb-cli/refs/heads/main/docs/file-formats/ingr.md",U={parser:`Implement an INGR file format parser in [YOUR LANGUAGE].
+</users>`};function $(n){if(n===0)return"0 bytes";const t=Math.abs(n),a=t/(1024*1024),c=t/1024;if(t>=1024*1024){const o=Math.round(a*10)/10;return o===Math.floor(o)?`${Math.floor(o)}MB`:`${o}MB`}if(t>=1024){const o=Math.round(c*10)/10;return o===Math.floor(o)?`${Math.floor(o)}KB`:`${o}KB`}return`${Math.floor(t)} bytes`}function S(n,t,a){const c=document.getElementById("hero-size-info"),o=document.getElementById("hero-size-change");if(!t||!n){c.style.display="none";return}let d=t;if(a){const s=a.match(/:\s*/);if(s){const e=s.index+s[0].length,r=a.split(`
+`);let f=-1;for(let i=r.length-1;i>0;i--)if(r[i].startsWith("#")){f=i;break}let p=a.length;if(f>0){const i=a.indexOf(r[f]);p=a.lastIndexOf(`
+`,i)}d=p-e}}const l=d-n,u=Math.round(l/n*100),m=l<0?"var(--success)":"var(--error)",h=l<0?"Data size saved":"Data size increased";o.innerHTML=`
+    <span style="color:${m};">${h} <strong>${Math.abs(u)}%</strong> (<span style="color:${m};">${$(Math.abs(l))}</span>)</span>
+  `,c.style.display="block"}function T(){const n=document.getElementById("hero-tabs"),t=document.getElementById("hero-input"),a=document.getElementById("hero-output"),c=document.getElementById("hero-convert"),o=document.getElementById("hero-swap"),d=document.getElementById("hero-delimiter"),l=document.getElementById("hero-sha256");let u="json";function m(e){u=e,t.value=y[e]??"",a.innerHTML="",a.classList.remove("error"),n.querySelectorAll(".format-tab").forEach(r=>{r.classList.toggle("active",r.dataset.fmt===e)})}function h(e,r=!1){a.classList.toggle("error",r),r?a.textContent=e:a.innerHTML=e?x(e):""}async function s(){try{const e={ingrDelimiter:d.checked};let r=w(t.value,u,"ingr",e);if(l.checked){const p=new TextEncoder().encode(r),i=await crypto.subtle.digest("SHA-256",p),A=Array.from(new Uint8Array(i)).map(B=>B.toString(16).padStart(2,"0")).join("");r=r+`
+# sha256:`+A}h(r),S(new TextEncoder().encode(t.value).length,new TextEncoder().encode(r).length,r)}catch(e){h(e instanceof Error?e.message:String(e),!0)}}n.innerHTML=C.map(e=>`<button class="format-tab${e===u?" active":""}" data-fmt="${e}">${R[e]}</button>`).join(""),n.addEventListener("click",e=>{const r=e.target.closest(".format-tab");r?.dataset.fmt&&(m(r.dataset.fmt),s())}),c.addEventListener("click",s),d.addEventListener("change",s),l.addEventListener("change",s),o.addEventListener("click",()=>{const e=a.textContent??"";!e||a.classList.contains("error")||(t.value=e,a.innerHTML="",a.classList.remove("error"),m("ingr"))}),t.value=y.json,s()}document.addEventListener("DOMContentLoaded",T);const b="https://raw.githubusercontent.com/ingitdb/ingitdb-cli/refs/heads/main/docs/file-formats/ingr.md",U={parser:`Implement an INGR file format parser in [YOUR LANGUAGE].
 
-Specification: ${v}
+Specification: ${b}
 
 Requirements:
 - Parse the header line to extract the recordset name and ordered column list
@@ -47,7 +47,7 @@ Requirements:
 - Return a structured result: { recordsetName: string, columns: string[], records: object[] }
 - Raise descriptive errors for any malformed input`,builder:`Implement an INGR file format builder (serializer) in [YOUR LANGUAGE].
 
-Specification: ${v}
+Specification: ${b}
 
 Requirements:
 - Accept: recordset name (string), ordered column list (string[]), array of records (key-value maps)
@@ -63,7 +63,7 @@ Requirements:
 - Use UTF-8 encoding and LF line separators
 - Raise descriptive errors for invalid input`,both:`Implement a complete INGR file format library in [YOUR LANGUAGE], including both a parser and a builder.
 
-Specification: ${v}
+Specification: ${b}
 
 --- PARSER ---
 - Parse the header line to extract the recordset name and ordered column list
@@ -86,4 +86,4 @@ Specification: ${v}
 - No trailing newline after the final line
 - UTF-8, LF line separators
 
-Include usage examples for both parsing and building.`},E=document.getElementById("prompt-tabs"),L=document.getElementById("prompt-output"),p=document.getElementById("copy-prompt"),N=document.getElementById("lang-input");let A="parser";function b(){const n=N.value.trim()||"[YOUR LANGUAGE]";return U[A].replaceAll("[YOUR LANGUAGE]",n)}function I(n){A=n,L.textContent=b(),E.querySelectorAll(".format-tab").forEach(t=>t.classList.toggle("active",t.dataset.prompt===n))}E.addEventListener("click",n=>{const t=n.target.closest(".format-tab");t?.dataset.prompt&&I(t.dataset.prompt)});N.addEventListener("input",()=>{L.textContent=b()});p.addEventListener("click",async()=>{await navigator.clipboard.writeText(b());const n=p.innerHTML;p.innerHTML="<span>✓</span> Copied",setTimeout(()=>{p.innerHTML=n},1500)});I("parser");
+Include usage examples for both parsing and building.`},E=document.getElementById("prompt-tabs"),L=document.getElementById("prompt-output"),g=document.getElementById("copy-prompt"),I=document.getElementById("lang-input");let N="parser";function v(){const n=I.value.trim()||"[YOUR LANGUAGE]";return U[N].replaceAll("[YOUR LANGUAGE]",n)}function M(n){N=n,L.textContent=v(),E.querySelectorAll(".format-tab").forEach(t=>t.classList.toggle("active",t.dataset.prompt===n))}E.addEventListener("click",n=>{const t=n.target.closest(".format-tab");t?.dataset.prompt&&M(t.dataset.prompt)});I.addEventListener("input",()=>{L.textContent=v()});g.addEventListener("click",async()=>{await navigator.clipboard.writeText(v());const n=g.innerHTML;g.innerHTML="<span>✓</span> Copied",setTimeout(()=>{g.innerHTML=n},1500)});M("parser");

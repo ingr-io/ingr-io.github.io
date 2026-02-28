@@ -69,29 +69,32 @@ function updateSizeInfo(inputSize: number, outputSize: number, output?: string) 
     return
   }
   
-  // For INGR format, exclude header and footer from size calculation
+  // For INGR format, exclude header before colon and footer from size calculation
   let dataSizeForCalc = outputSize
   if (output) {
-    // Find header end (position after colon and trailing whitespace)
-    const headerEndMatch = output.match(/:\s*/)
-    if (!headerEndMatch) {
-      dataSizeForCalc = outputSize
-    } else {
-      // Find newline after the colon+whitespace, then position right after it
-      const colonAndWhitespaceEnd = headerEndMatch.index! + headerEndMatch[0].length
-      const headerEndPos = output.indexOf('\n', colonAndWhitespaceEnd) + 1
+    // Find position after colon and trailing whitespace
+    const colonMatch = output.match(/:\s*/)
+    if (colonMatch) {
+      const afterColonPos = colonMatch.index! + colonMatch[0].length
       
-      // Find footer start (first line from end starting with '#', skip header and "# N records")
-      let footerStartPos = output.length
+      // Find footer line (first line from end starting with '#', skip header line 0)
       const lines = output.split('\n')
-      for (let i = lines.length - 1; i > 0; i--) {  // Skip line 0 (header)
+      let footerLineIndex = -1
+      for (let i = lines.length - 1; i > 0; i--) {
         if (lines[i].startsWith('#')) {
-          footerStartPos = output.lastIndexOf(lines[i])
+          footerLineIndex = i
           break
         }
       }
       
-      dataSizeForCalc = footerStartPos - headerEndPos
+      // Position of newline before footer line (or end if no footer)
+      let beforeFooterPos = output.length
+      if (footerLineIndex > 0) {
+        const footerLinePos = output.indexOf(lines[footerLineIndex])
+        beforeFooterPos = output.lastIndexOf('\n', footerLinePos)
+      }
+      
+      dataSizeForCalc = beforeFooterPos - afterColonPos
     }
   }
   

@@ -175,27 +175,32 @@ function init() {
       const bytes = new TextEncoder().encode(result).length
       const inputBytes = new TextEncoder().encode(inputArea.value).length
       
-      // For INGR format, calculate data size excluding header and footer
+      // For INGR format, calculate data size excluding header before colon and footer
       let dataBytes = bytes
       if (outputFormat === 'ingr') {
-        // Find header end (position after colon and trailing whitespace)
-        const headerEndMatch = result.match(/:\s*/)
-        if (headerEndMatch) {
-          // Find newline after the colon+whitespace, then position right after it
-          const colonAndWhitespaceEnd = headerEndMatch.index! + headerEndMatch[0].length
-          const headerEndPos = result.indexOf('\n', colonAndWhitespaceEnd) + 1
+        // Find position after colon and trailing whitespace
+        const colonMatch = result.match(/:\s*/)
+        if (colonMatch) {
+          const afterColonPos = colonMatch.index! + colonMatch[0].length
           
-          // Find footer start (first line from end starting with '#', skip header and "# N records")
-          let footerStartPos = result.length
+          // Find footer line (first line from end starting with '#', skip header line 0)
           const lines = result.split('\n')
-          for (let i = lines.length - 1; i > 0; i--) {  // Skip line 0 (header)
+          let footerLineIndex = -1
+          for (let i = lines.length - 1; i > 0; i--) {
             if (lines[i].startsWith('#')) {
-              footerStartPos = result.lastIndexOf(lines[i])
+              footerLineIndex = i
               break
             }
           }
           
-          dataBytes = footerStartPos - headerEndPos
+          // Position of newline before footer line (or end if no footer)
+          let beforeFooterPos = result.length
+          if (footerLineIndex > 0) {
+            const footerLinePos = result.indexOf(lines[footerLineIndex])
+            beforeFooterPos = result.lastIndexOf('\n', footerLinePos)
+          }
+          
+          dataBytes = beforeFooterPos - afterColonPos
         }
       }
       
