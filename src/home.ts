@@ -81,11 +81,11 @@ function updateSizeInfo(inputSize: number, outputSize: number, output?: string) 
       const colonAndWhitespaceEnd = headerEndMatch.index! + headerEndMatch[0].length
       const headerEndPos = output.indexOf('\n', colonAndWhitespaceEnd) + 1
       
-      // Find footer start (first line from end starting with '#' but not "# N records")
+      // Find footer start (first line from end starting with '#', skip header and "# N records")
       let footerStartPos = output.length
       const lines = output.split('\n')
-      for (let i = lines.length - 1; i >= 0; i--) {
-        if (lines[i].startsWith('#') && !/^#\s+\d+\s+records?$/.test(lines[i].trim())) {
+      for (let i = lines.length - 1; i > 0; i--) {  // Skip line 0 (header)
+        if (lines[i].startsWith('#')) {
           footerStartPos = output.lastIndexOf(lines[i])
           break
         }
