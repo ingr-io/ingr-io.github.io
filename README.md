@@ -50,8 +50,18 @@ Contains a mini converter:
   Upon selection, the input field will be pre-filled with sample content in the selected format.
 - In the INGR output header: a **"Record delimiters"** checkbox. When checked, a `#` line is inserted
   between each record in the INGR output, as permitted by the specification.
-- If the screen is small (mobile), the input and output textareas with buttons between them
-  will be stacked vertically instead of being side by side.
+- In the INGR output header: a **"sha256"** checkbox. When checked, appends a `# sha256:<hash>` line to the output
+  with the SHA256 hash of the converted output for integrity verification.
+- **Syntax highlighting** — INGR output uses color coding:
+  - Comments (lines starting with `#`) are displayed in bright accent color for visibility
+  - String values are displayed in light green (`#90EE90`)
+  - Numbers are displayed in accent color
+  - Booleans are displayed in teal
+  - Null values are displayed in muted color
+  - Objects are displayed in purple
+- **Responsive design** — On small screens (mobile), the input and output textareas with buttons between them
+  will be stacked vertically. Buttons arrange horizontally with vertical arrows (⇓ and ⇑↓) instead of side-by-side
+  horizontal layout.
 
 ### Converter CTA section
 
@@ -65,6 +75,9 @@ Each entry shows the language name, package name, a short description, and a lin
 
 The section uses a two-column layout: library cards stacked vertically on the left,
 AI prompt block on the right.
+
+**Responsive design** — On small screens (max-width: 900px), the two-column layout
+switches to a single-column layout with library cards stacked above the AI prompt block.
 
 Current libraries:
 - **Go** — [ingr-go](https://github.com/ingr-io/ingr-go)
@@ -129,6 +142,10 @@ When the output format is INGR, a **"Record delimiters"** checkbox is shown in t
 When checked, a `#` line is inserted between each record in the INGR output, as permitted by the specification.
 Toggling the checkbox immediately re-runs the conversion.
 
+When the output format is INGR, a **"sha256"** checkbox is also shown in the output panel header.
+When checked, appends a `# sha256:<hash>` line to the output with the SHA256 hash of the converted content
+for integrity verification. Toggling the checkbox immediately re-runs the conversion.
+
 Action buttons below the output textarea:
 - **Copy** — copies the output text to the clipboard.
 - **Download** — downloads the output as a file with the appropriate extension for the selected format.
@@ -147,3 +164,44 @@ If conversion fails, the error message is displayed inside the output textarea w
 - XML
 - INGR (_INGR to INGR conversion is also supported for validation purposes_)
 - Markdown table (available when input is INGR)
+
+---
+
+## Responsiveness & Mobile Design
+
+The website is designed to work seamlessly on both large monitors and mobile devices. All pages use responsive layouts
+that adapt to different screen sizes:
+
+### Breakpoints
+
+- **Large screens** (> 768px): Full side-by-side layouts with multi-column grids
+- **Medium screens** (768px - 680px): Hybrid layouts with adjusted spacing and stacked sections
+- **Small screens** (< 680px): Single-column layouts optimized for mobile devices
+
+### Home Page Responsiveness
+
+- **Hero converter section**: On small screens, the input textarea, buttons, and output textarea stack vertically.
+  The control buttons arrange horizontally with vertical directional indicators (⇓ convert ⇑↓) instead of
+  horizontal arrows, making better use of narrow screen widths.
+
+- **"What it is" section**: On small screens (< 768px), the title "Structured data, line by line." moves from
+  the left column to the top, with the descriptive text below, rather than the side-by-side layout on larger screens.
+
+- **Libraries section**: On small screens (< 900px), the two-column layout (library cards left, AI prompts right)
+  switches to a single-column stack. The AI prompt block appears below the library cards for better mobile navigation.
+
+### Converter Page Responsiveness
+
+- **Two-column input/output grid**: On small screens (< 680px), the side-by-side input/output layout becomes vertical.
+  The control buttons between input and output arrange horizontally with vertical arrows instead of vertical arrangement.
+
+- **Form controls**: All buttons, checkboxes, and tabs remain accessible and properly sized for touch interaction
+  on mobile devices.
+
+### Key Design Principles
+
+1. **Touch-friendly**: All interactive elements (buttons, checkboxes, tabs) are sized appropriately for touch
+   (minimum 44px height as per accessibility guidelines).
+2. **Readable typography**: Font sizes adjust to maintain readability across all screen sizes.
+3. **Efficient use of space**: Horizontal scrolling is minimized; content reflows to fit narrower viewports.
+4. **Consistent experience**: Core functionality remains the same across all screen sizes—only layout and presentation adapt.
