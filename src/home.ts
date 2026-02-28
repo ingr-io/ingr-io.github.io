@@ -82,8 +82,13 @@ function updateSizeInfo(inputSize: number, outputSize: number, output?: string) 
       }
     }
     // Calculate data size: exclude header (line 0) and footer
+    // Include newlines between lines and after the last data line
     const dataLines = lines.slice(1, footerStart)
-    dataSizeForCalc = new TextEncoder().encode(dataLines.join('\n')).length
+    if (dataLines.length > 0) {
+      dataSizeForCalc = new TextEncoder().encode(dataLines.join('\n') + '\n').length
+    } else {
+      dataSizeForCalc = 0
+    }
   }
   
   const diff = dataSizeForCalc - inputSize

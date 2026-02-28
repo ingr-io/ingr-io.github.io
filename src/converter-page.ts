@@ -187,7 +187,11 @@ function init() {
           }
         }
         const dataLines = lines.slice(1, footerStart)
-        dataBytes = new TextEncoder().encode(dataLines.join('\n')).length
+        if (dataLines.length > 0) {
+          dataBytes = new TextEncoder().encode(dataLines.join('\n') + '\n').length
+        } else {
+          dataBytes = 0
+        }
       }
       
       // Calculate size change if input exists
