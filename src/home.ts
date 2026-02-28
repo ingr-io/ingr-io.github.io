@@ -45,17 +45,19 @@ u3\tCarol Wu\tmanager\tfalse`,
 function formatBytes(bytes: number): string {
   if (bytes === 0) return '0 bytes'
   const absBytes = Math.abs(bytes)
-  const parts = []
   
-  const mb = Math.floor(absBytes / (1024 * 1024))
-  const kb = Math.floor((absBytes % (1024 * 1024)) / 1024)
-  const b = Math.floor(absBytes % 1024)
+  const mb = absBytes / (1024 * 1024)
+  const kb = absBytes / 1024
   
-  if (mb > 0) parts.push(`${mb}MB`)
-  if (kb > 0) parts.push(`${kb}KB`)
-  if (b > 0) parts.push(`${b}bytes`)
-  
-  return parts.join(' ')
+  if (absBytes >= 1024 * 1024) {
+    const rounded = Math.round(mb * 10) / 10
+    return rounded === Math.floor(rounded) ? `${Math.floor(rounded)}MB` : `${rounded}MB`
+  }
+  if (absBytes >= 1024) {
+    const rounded = Math.round(kb * 10) / 10
+    return rounded === Math.floor(rounded) ? `${Math.floor(rounded)}KB` : `${rounded}KB`
+  }
+  return `${Math.floor(absBytes)} bytes`
 }
 
 function updateSizeInfo(inputSize: number, outputSize: number) {
