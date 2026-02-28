@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Converter — INGR</title>
+  <meta name="description" content="Convert between JSON, JSONL, CSV, TSV, YAML, XML and INGR format. Fully local, no server." />
+  <script type="module" crossorigin src="/assets/converter-CaJCSRIg.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/highlight-aGWIcb49.js">
+  <link rel="stylesheet" crossorigin href="/assets/highlight-x3cxDaKU.css">
+</head>
+<body style="position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;">
+
+<!-- ── HEADER ──────────────────────────────────────────────────────────────── -->
+<header style="border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:56px;flex-shrink:0;">
+  <a href="/" style="font-family:var(--font-mono);font-size:18px;font-weight:600;color:var(--accent);letter-spacing:-0.02em;text-decoration:none;">INGR</a>
+  <span style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);">Converter</span>
+</header>
+
+<!-- ── MAIN ────────────────────────────────────────────────────────────────── -->
+<main style="flex:1;padding:32px;max-width:1200px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:24px;">
+
+  <!-- Top bar -->
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+    <h1 style="font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--text);margin:0;">
+      Format Converter
+    </h1>
+    <p style="font-family:var(--font-mono);font-size:11px;color:var(--text-subtle);margin:0;">
+      All processing is local — no data leaves your browser.
+    </p>
+  </div>
+
+  <!-- Converter grid -->
+  <div id="converter-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);flex:1;">
+
+    <!-- ── INPUT PANEL ── -->
+    <div style="background:var(--bg);display:flex;flex-direction:column;">
+
+      <!-- Input header -->
+      <div style="background:var(--surface-2);padding:10px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0;">
+        <span style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);">Input</span>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <label for="file-input" class="btn-ghost"
+            style="cursor:pointer;padding:5px 12px;font-size:10px;display:inline-flex;align-items:center;gap:6px;">
+            <span>↑</span> Upload file
+          </label>
+          <input id="file-input" type="file"
+            accept=".json,.jsonl,.csv,.tsv,.yaml,.yml,.xml,.ingr"
+            style="display:none;" />
+        </div>
+      </div>
+
+      <!-- Input format tabs -->
+      <div id="input-tabs" class="format-tabs" style="background:var(--surface);flex-shrink:0;"></div>
+
+      <!-- Drop zone + textarea wrapper -->
+      <div id="drop-zone" class="drop-zone" style="flex:1;position:relative;display:flex;flex-direction:column;">
+        <textarea id="input-area" class="code-area"
+          style="flex:1;border:none;resize:none;min-height:320px;"
+          placeholder="Paste your data here, or drop a file…&#10;&#10;Supported formats: JSON, JSONL, CSV, TSV, YAML, XML, INGR&#10;Supported files: .json .jsonl .csv .tsv .yaml .yml .xml .ingr"></textarea>
+
+        <!-- Drop overlay -->
+        <div id="drop-overlay" style="display:none;position:absolute;inset:0;background:color-mix(in srgb,var(--accent) 8%,var(--surface));border:2px dashed var(--accent);pointer-events:none;align-items:center;justify-content:center;flex-direction:column;gap:8px;">
+          <span style="font-family:var(--font-mono);font-size:14px;color:var(--accent);">Drop file here</span>
+        </div>
+      </div>
+
+      <!-- Convert button bar -->
+      <div style="padding:12px 16px;background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-shrink:0;">
+        <button id="convert-btn" class="btn-primary" style="font-size:12px;padding:10px 24px;">Convert</button>
+        <button id="clear-btn" class="btn-ghost" style="font-size:10px;padding:8px 14px;">Clear</button>
+        <span id="detect-status" style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-left:auto;"></span>
+      </div>
+    </div>
+
+    <!-- ── OUTPUT PANEL ── -->
+    <div style="background:var(--bg);display:flex;flex-direction:column;">
+
+      <!-- Output header -->
+      <div style="background:var(--surface-2);padding:10px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+        <div style="display:flex;align-items:center;gap:16px;">
+          <span style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);">Output</span>
+          <label id="delimiter-label" style="display:none;align-items:center;gap:6px;cursor:pointer;">
+            <input id="output-delimiter" type="checkbox"
+              style="accent-color:var(--accent);width:12px;height:12px;cursor:pointer;" />
+            <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);">Record delimiters</span>
+          </label>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button id="copy-btn" class="btn-ghost" style="font-size:10px;padding:5px 12px;display:flex;align-items:center;gap:5px;">
+            <span>⎘</span> Copy
+          </button>
+          <button id="download-btn" class="btn-ghost" style="font-size:10px;padding:5px 12px;display:flex;align-items:center;gap:5px;">
+            <span>↓</span> Download
+          </button>
+        </div>
+      </div>
+
+      <!-- Output format tabs (shown when input is INGR) -->
+      <div id="output-tabs-wrapper" style="display:none;flex-shrink:0;">
+        <div id="output-tabs" class="format-tabs" style="background:var(--surface);"></div>
+      </div>
+      <!-- Spacer when output tabs are hidden (aligns with input tabs) -->
+      <div id="output-tabs-spacer" style="height:37px;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;"></div>
+
+      <!-- Output pre -->
+      <pre id="output-area" class="code-area code-output"
+        style="flex:1;border:none;min-height:320px;"
+        data-placeholder="Converted output will appear here…"></pre>
+
+      <!-- Output footer bar -->
+      <div style="padding:12px 16px;background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-shrink:0;">
+        <span id="output-format-label" style="font-family:var(--font-mono);font-size:11px;color:var(--teal);"></span>
+        <span id="output-stats" style="font-family:var(--font-mono);font-size:11px;color:var(--text-subtle);margin-left:auto;"></span>
+      </div>
+    </div>
+  </div>
+
+  <style>
+  @media (max-width:720px) {
+    #converter-grid { grid-template-columns: 1fr !important; }
+  }
+  </style>
+</main>
+
+<!-- ── FOOTER ──────────────────────────────────────────────────────────────── -->
+<footer style="border-top:1px solid var(--border);padding:16px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;flex-shrink:0;">
+  <div style="display:flex;gap:20px;">
+    <a href="/"
+       style="font-family:var(--font-mono);font-size:11px;color:var(--text-subtle);text-decoration:none;"
+       onmouseover="this.style.color='var(--text-muted)'" onmouseout="this.style.color='var(--text-subtle)'">Home</a>
+    <a href="https://github.com/ingr-io/ingr-file-format" target="_blank" rel="noopener"
+       style="font-family:var(--font-mono);font-size:11px;color:var(--text-subtle);text-decoration:none;"
+       onmouseover="this.style.color='var(--text-muted)'" onmouseout="this.style.color='var(--text-subtle)'">Spec ↗</a>
+  </div>
+  <span style="font-family:var(--font-mono);font-size:11px;color:var(--text-subtle);">Local processing only</span>
+</footer>
+
+</body>
+</html>
