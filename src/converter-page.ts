@@ -179,7 +179,7 @@ function init() {
         const diff = bytes - inputBytes
         const percent = Math.round((diff / inputBytes) * 100)
         const sign = diff < 0 ? '−' : '+'
-        sizeInfo += ` · ${sign}${Math.abs(percent)}% (${sign}${formatBytes(Math.abs(diff))})`
+        sizeInfo += ` · ${sign}${Math.abs(percent)}% (${formatBytes(Math.abs(diff))})`
       }
       outputStats.textContent = sizeInfo
       updateOutputLabel()

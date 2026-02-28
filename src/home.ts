@@ -71,12 +71,11 @@ function updateSizeInfo(inputSize: number, outputSize: number) {
   const percent = Math.round((diff / inputSize) * 100)
   const color = diff < 0 ? 'var(--success)' : 'var(--error)'
   const label = diff < 0 ? 'Size saving' : 'Size increase'
-  const sign = diff < 0 ? '−' : '+'
   
   sizeChangeEl.innerHTML = `
     <span style="color:${color};">${label} <strong>${Math.abs(percent)}%</strong></span>
     <span style="color:var(--text-muted);">
-      (<span style="color:${color};">${sign}${formatBytes(Math.abs(diff))}</span>, 
+      (<span style="color:${color};">${formatBytes(Math.abs(diff))}</span>, 
       ${formatBytes(inputSize)} → ${formatBytes(outputSize)})
     </span>
   `
