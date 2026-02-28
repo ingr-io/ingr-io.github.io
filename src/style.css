@@ -173,11 +173,17 @@ body::before {
 .hero-convert-btn .arrow-desktop,
 .hero-swap-btn .arrow-desktop {
   font-size: 13px;
+  display: inline;
 }
 
 .hero-convert-btn .btn-mobile,
 .hero-swap-btn .btn-mobile {
-  display: none;
+  display: none !important;
+}
+
+.hero-convert-btn .btn-text-mobile,
+.hero-swap-btn .btn-text-mobile {
+  display: none !important;
 }
 
 .btn-ghost {
