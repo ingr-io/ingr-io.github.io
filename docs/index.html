@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>INGR — Compact Git-Friendly Record Format</title>
   <meta name="description" content="INGR is a compact, deterministic, self-describing, Git-friendly fixed-line record format for structured data." />
-  <script type="module" crossorigin src="/assets/main-DDwffSHJ.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/highlight-aGWIcb49.js">
-  <link rel="stylesheet" crossorigin href="/assets/highlight-x3cxDaKU.css">
+  <script type="module" crossorigin src="/assets/main-D_JCkQ1P.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/highlight-BeKEGlZX.js">
+  <link rel="stylesheet" crossorigin href="/assets/highlight-D_TqLEOU.css">
 </head>
 <body style="position:relative;z-index:1;">
 
@@ -78,13 +78,20 @@
 
     <!-- Output -->
     <div>
-      <div style="background:var(--surface-2);padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px;">
+      <div style="background:var(--surface-2);padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
         <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);">.ingr output</span>
-        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
-          <input id="hero-delimiter" type="checkbox"
-            style="accent-color:var(--accent);width:12px;height:12px;cursor:pointer;" />
-          <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);">Record delimiters</span>
-        </label>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+            <input id="hero-delimiter" type="checkbox"
+              style="accent-color:var(--accent);width:12px;height:12px;cursor:pointer;" />
+            <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);">Record delimiters</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+            <input id="hero-sha256" type="checkbox"
+              style="accent-color:var(--accent);width:12px;height:12px;cursor:pointer;" />
+            <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);">sha256</span>
+          </label>
+        </div>
       </div>
       <!-- spacer to align with input tabs row -->
       <div style="height:37px;background:var(--surface);border-bottom:1px solid var(--border);"></div>
@@ -122,8 +129,8 @@
 </style>
 
 <!-- ── FEATURES ────────────────────────────────────────────────────────────── -->
-<section style="padding:96px 32px;max-width:1100px;margin:0 auto;">
-  <div style="display:grid;grid-template-columns:1fr 2px 2fr;gap:48px;align-items:start;margin-bottom:80px;">
+<section style="padding:96px 32px;max-width:1100px;margin:0 auto;" class="what-it-is-section">
+  <div style="display:grid;grid-template-columns:1fr 2px 2fr;gap:48px;align-items:start;margin-bottom:80px;" class="what-it-is-grid">
     <div>
       <p style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:var(--accent);margin:0 0 16px;">What it is</p>
       <h2 style="font-family:var(--font-display);font-size:36px;font-weight:700;line-height:1.15;color:var(--text);margin:0;">

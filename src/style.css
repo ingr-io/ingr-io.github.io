@@ -118,8 +118,8 @@ body::before {
   color: var(--error);
 }
 /* Syntax highlight colours */
-.hl-meta   { color: var(--text-subtle); }
-.hl-string { color: #7EC8A4; }
+.hl-meta   { color: var(--accent); }
+.hl-string { color: #90EE90; }
 .hl-number { color: var(--accent); }
 .hl-bool   { color: var(--teal); }
 .hl-null   { color: var(--text-muted); }
@@ -255,4 +255,62 @@ body::before {
 }
 .flash-success {
   animation: flash-green 1s ease forwards;
+}
+
+/* Responsive: Libraries on small screens */
+@media (max-width: 900px) {
+  /* Libraries section: stack cards vertically, AI prompt below */
+  section:nth-of-type(6) > div {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Responsive: What it is section on small screens */
+@media (max-width: 768px) {
+  /* Stack title on top, text below */
+  .what-it-is-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .what-it-is-grid > div:nth-child(2) {
+    display: none !important;
+  }
+  
+  .what-it-is-grid > div:first-child {
+    order: 1;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .what-it-is-grid > div:last-child {
+    order: 2;
+    padding-top: 24px;
+  }
+}
+
+/* Responsive: Converter grid on small screens */
+@media (max-width: 680px) {
+  #converter-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Center button controls: horizontal with vertical arrows */
+  #converter-grid > div:nth-child(2) {
+    flex-direction: row !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-top: 1px solid var(--border) !important;
+    border-bottom: 1px solid var(--border) !important;
+    padding: 12px !important;
+  }
+  
+  #converter-grid > div:nth-child(2) button {
+    writing-mode: horizontal-tb !important;
+    transform: none !important;
+    flex-direction: column;
+  }
+  
+  #converter-grid > div:nth-child(2) button span:first-child {
+    writing-mode: horizontal-tb;
+  }
 }

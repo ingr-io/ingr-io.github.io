@@ -49,6 +49,7 @@ function init() {
   const convertBtn = document.getElementById('hero-convert')!
   const swapBtn = document.getElementById('hero-swap')!
   const delimiterEl = document.getElementById('hero-delimiter') as HTMLInputElement
+  const sha256El = document.getElementById('hero-sha256') as HTMLInputElement
 
   let currentFormat: Format = 'json'
 
@@ -72,10 +73,21 @@ function init() {
     }
   }
 
-  function runConvert() {
+  async function runConvert() {
     try {
       const options: ConvertOptions = { ingrDelimiter: delimiterEl.checked }
-      setOutput(convert(inputEl.value, currentFormat, 'ingr', options))
+      let result = convert(inputEl.value, currentFormat, 'ingr', options)
+      
+      if (sha256El.checked) {
+        const encoder = new TextEncoder()
+        const data = encoder.encode(result)
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data)
+        const hashArray = Array.from(new Uint8Array(hashBuffer))
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('')
+        result = result + '\n# sha256:' + hashHex
+      }
+      
+      setOutput(result)
     } catch (e) {
       setOutput(e instanceof Error ? e.message : String(e), true)
     }
@@ -93,6 +105,7 @@ function init() {
 
   convertBtn.addEventListener('click', runConvert)
   delimiterEl.addEventListener('change', runConvert)
+  sha256El.addEventListener('change', runConvert)
 
   swapBtn.addEventListener('click', () => {
     const outVal = outputEl.textContent ?? ''

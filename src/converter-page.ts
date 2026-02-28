@@ -35,8 +35,8 @@ function init() {
   const dropZone        = document.getElementById('drop-zone')!
   const dropOverlay     = document.getElementById('drop-overlay')!
   const fileInput       = document.getElementById('file-input') as HTMLInputElement
-  const delimiterLabel  = document.getElementById('delimiter-label')!
   const delimiterCheck  = document.getElementById('output-delimiter') as HTMLInputElement
+  const sha256Check     = document.getElementById('output-sha256') as HTMLInputElement
 
   let inputFormat: Format | null = null
   let outputFormat: Format = (localStorage.getItem(OUTPUT_FORMAT_STORAGE_KEY) as Format) ?? 'ingr'
@@ -104,7 +104,7 @@ function init() {
   }
 
   function updateDelimiterVisibility() {
-    delimiterLabel.style.display = effectiveOutputFormat() === 'ingr' ? 'flex' : 'none'
+    // Delimiter checkbox is always shown for INGR output
   }
 
   function updateOutputLabel() {
@@ -117,7 +117,7 @@ function init() {
 
   // ── Conversion ───────────────────────────────────────────────────────────
 
-  function runConversion() {
+  async function runConversion() {
     const text = inputArea.value.trim()
     if (!text) { setOutput(''); outputStats.textContent = ''; return }
 
@@ -140,7 +140,17 @@ function init() {
 
     try {
       const options: ConvertOptions = { ingrDelimiter: delimiterCheck.checked }
-      const result = convert(text, from, to, options)
+      let result = convert(text, from, to, options)
+      
+      if (sha256Check.checked && to === 'ingr') {
+        const encoder = new TextEncoder()
+        const data = encoder.encode(result)
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data)
+        const hashArray = Array.from(new Uint8Array(hashBuffer))
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('')
+        result = result + '\n# sha256:' + hashHex
+      }
+      
       setOutput(result)
       const lines = result.split('\n').length
       const bytes = new TextEncoder().encode(result).length
@@ -259,6 +269,7 @@ function init() {
   // ── Init ──────────────────────────────────────────────────────────────────
 
   delimiterCheck.addEventListener('change', runConversion)
+  sha256Check.addEventListener('change', runConversion)
 
   buildInputTabs()
   buildOutputTabs()
