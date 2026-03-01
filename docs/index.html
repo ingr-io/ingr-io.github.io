@@ -44,7 +44,7 @@
        style="display:grid;grid-template-columns:1fr auto 1fr;gap:0;border:1px solid var(--border);">
 
     <!-- Input -->
-    <div id="hero-left-panel" class="hero-panel">
+    <div id="hero-left-panel" class="hero-panel" style="display:flex;flex-direction:column;">
       <div class="panel-header">
         <div class="panel-title-group">
           <span id="hero-left-title" class="panel-title"><b style="color:var(--text);">Input</b></span>
@@ -53,7 +53,7 @@
         <div id="hero-tabs" class="format-tabs in-header-tabs"></div>
       </div>
       <textarea id="hero-input" class="code-area" rows="12"
-        style="border:none;width:100%;display:block;"
+        style="border:none;width:100%;flex:1;min-height:0;"
         placeholder="Paste your data here…"></textarea>
     </div>
 
