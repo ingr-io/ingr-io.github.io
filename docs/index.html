@@ -5,28 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>INGR — Compact Git-Friendly Record Format</title>
   <meta name="description" content="INGR is a compact, deterministic, self-describing, Git-friendly fixed-line record format for structured data." />
-  <script type="module" crossorigin src="/assets/main-Cxiqz2VP.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/highlight-4uy85KZ6.js">
-  <link rel="stylesheet" crossorigin href="/assets/highlight-DhN1hvb2.css">
+  <script type="module" crossorigin src="/assets/main-Bx46c1dt.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/highlight-C66q8xoc.js">
+  <link rel="stylesheet" crossorigin href="/assets/highlight-D5lwYpAg.css">
 </head>
-<body style="position:relative;z-index:1;">
+<body>
 
 <!-- ── HEADER ──────────────────────────────────────────────────────────────── -->
-<header style="border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(12px);z-index:50;">
-  <span style="font-family:var(--font-mono);font-size:18px;font-weight:600;color:var(--accent);letter-spacing:-0.02em;">INGR</span>
-  <nav style="display:flex;gap:24px;align-items:center;">
+<header class="site-header">
+  <span class="site-logo">INGR</span>
+  <nav class="site-nav">
     <a href="https://github.com/ingr-io/ingr-file-format" target="_blank" rel="noopener"
-       style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);text-decoration:none;transition:color 0.15s;"
-       onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text-muted)'">GitHub</a>
-    <a href="/converter/"
-       style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:0.06em;padding:6px 14px;border:1px solid var(--border);color:var(--text-muted);text-decoration:none;transition:all 0.15s;"
-       onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'"
-       onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-muted)'">Converter →</a>
+       class="nav-link">GitHub</a>
+    <a href="/converter/" class="nav-link-btn">Converter →</a>
   </nav>
 </header>
 
 <!-- ── HERO ────────────────────────────────────────────────────────────────── -->
-<section style="padding:80px 32px 0;max-width:1100px;margin:0 auto;">
+<section class="section-wrap" style="padding-bottom:0;">
   <div class="animate-fade-up" style="margin-bottom:16px;">
     <span style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);border:1px solid var(--accent-dim);padding:4px 10px;">v1.0.0-RC</span>
   </div>
@@ -40,9 +36,7 @@
     INGR is a compact, deterministic, self-describing fixed-line record format.
     One field per line. Every diff meaningful. Every merge clean.
     <a href="https://github.com/ingr-io/ingr-file-format" target="_blank" rel="noopener"
-       style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent-dim);transition:border-color 0.15s;"
-       onmouseover="this.style.borderBottomColor='var(--accent)'"
-       onmouseout="this.style.borderBottomColor='var(--accent-dim)'">Full specification ↗</a>
+       class="link-accent">Full specification ↗</a>
   </p>
 
   <!-- Mini converter -->
@@ -50,12 +44,14 @@
        style="display:grid;grid-template-columns:1fr auto 1fr;gap:0;border:1px solid var(--border);">
 
     <!-- Input -->
-    <div>
-      <div style="background:var(--surface-2);padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
-        <span style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);"><b style="color:var(--text);">Input</b></span>
-        <span id="hero-input-size" style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);font-style:italic;"></span>
+    <div id="hero-left-panel" class="hero-panel">
+      <div class="panel-header">
+        <div class="panel-title-group">
+          <span id="hero-left-title" class="panel-title"><b style="color:var(--text);">Input</b></span>
+          <span id="hero-input-size" class="size-label"></span>
+        </div>
+        <div id="hero-tabs" class="format-tabs in-header-tabs"></div>
       </div>
-      <div id="hero-tabs" class="format-tabs" style="background:var(--surface);"></div>
       <textarea id="hero-input" class="code-area" rows="12"
         style="border:none;width:100%;display:block;"
         placeholder="Paste your data here…"></textarea>
@@ -84,29 +80,26 @@
     </div>
 
     <!-- Output -->
-    <div>
-      <div style="background:var(--surface-2);padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
-        <div style="display:flex;align-items:center;gap:8px;">
-          <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);"><b style="color:var(--text);">.INGR</b> output</span>
-          <span id="hero-output-size" style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);font-style:italic;"></span>
+    <div id="hero-right-panel" class="hero-panel" style="display:flex;flex-direction:column;">
+      <div class="panel-header">
+        <div class="panel-title-group">
+          <span id="hero-right-title" class="panel-title"><b style="color:var(--text);">.INGR</b> output</span>
+          <span id="hero-output-size" class="size-label"></span>
         </div>
-        <div style="display:flex;align-items:center;gap:12px;">
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
-            <input id="hero-delimiter" type="checkbox"
-              style="accent-color:var(--accent);width:12px;height:12px;cursor:pointer;" />
-            <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);">Record delimiters</span>
+        <div id="hero-ingr-controls" style="display:flex;align-items:center;gap:12px;margin-left:auto;padding:0 14px;">
+          <label class="checkbox-label">
+            <input id="hero-delimiter" type="checkbox" class="checkbox-input" />
+            <span class="mono-sm">Record delimiters</span>
           </label>
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
-            <input id="hero-sha256" type="checkbox"
-              style="accent-color:var(--accent);width:12px;height:12px;cursor:pointer;" />
-            <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);">sha256</span>
+          <label class="checkbox-label">
+            <input id="hero-sha256" type="checkbox" class="checkbox-input" />
+            <span class="mono-sm">sha256</span>
           </label>
         </div>
+        <div id="hero-right-tabs" class="format-tabs in-header-tabs" style="display:none;"></div>
       </div>
-      <!-- spacer to align with input tabs row -->
-      <div style="height:37px;background:var(--surface);border-bottom:1px solid var(--border);"></div>
       <pre id="hero-output" class="code-area code-output"
-        style="border:none;width:100%;height:228px;"
+        style="border:none;width:100%;flex:1;min-height:0;"
         data-placeholder="Converted INGR will appear here…"></pre>
     </div>
   </div>
@@ -117,55 +110,28 @@
 
   <div class="animate-fade-up delay-4"
        style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;flex-wrap:wrap;gap:8px;">
-    <p style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin:0;">
-      JSON · JSONL · CSV · TSV · YAML · XML → INGR
-    </p>
-    <a href="/converter/"
-       style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent-dim);transition:border-color 0.15s;"
-       onmouseover="this.style.borderBottomColor='var(--accent)'"
-       onmouseout="this.style.borderBottomColor='var(--accent-dim)'">Full converter →</a>
+    <p class="mono-note">JSON · JSONL · CSV · TSV · YAML · XML → INGR</p>
+    <a href="/converter/" class="link-accent" style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:0.06em;">Full converter →</a>
   </div>
 </section>
 
-<style>
-@media (max-width:680px) {
-  #hero-grid { grid-template-columns:1fr !important; }
-  #hero-grid > div:nth-child(2) {
-    flex-direction:row !important;
-    border-left:none !important; border-right:none !important;
-    border-top:1px solid var(--border); border-bottom:1px solid var(--border);
-  }
-  #hero-grid > div:nth-child(2) button {
-    writing-mode:horizontal-tb !important;
-    transform:none !important;
-  }
-  .format-anatomy-list li {
-    display:block !important;
-  }
-  .anatomy-badge {
-    display:inline !important;
-    margin-right:6px;
-  }
-}
-</style>
-
 <!-- ── FEATURES ────────────────────────────────────────────────────────────── -->
-<section style="padding:96px 32px;max-width:1100px;margin:0 auto;" class="what-it-is-section">
+<section class="section-wrap what-it-is-section" style="padding-top:96px;">
   <div style="display:grid;grid-template-columns:1fr 2px 2fr;gap:48px;align-items:start;margin-bottom:80px;" class="what-it-is-grid">
     <div>
-      <p style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:var(--accent);margin:0 0 16px;">What it is</p>
+      <p class="section-label">What it is</p>
       <h2 style="font-family:var(--font-display);font-size:36px;font-weight:700;line-height:1.15;color:var(--text);margin:0;">
         Structured data,<br/>line by line.
       </h2>
     </div>
     <div style="background:var(--border);align-self:stretch;"></div>
     <div style="padding-top:8px;">
-      <p style="font-size:16px;line-height:1.75;color:var(--text-muted);margin:0 0 20px;">
+      <p class="body-p" style="margin:0 0 20px;">
         Each INGR file starts with a single header declaring the dataset name and column list.
         Every record then occupies exactly <strong style="color:var(--text);font-weight:600;">N lines</strong> — one JSON-encoded value per field.
         No separators required. No ambiguity. No surprises.
       </p>
-      <p style="font-size:16px;line-height:1.75;color:var(--text-muted);margin:0;">
+      <p class="body-p" style="margin:0;">
         Because each field lives on its own line, Git sees exactly which values changed in every commit —
         not a blob of JSON noise. Merge conflicts are rare, and when they happen, they're trivial to resolve.
       </p>
@@ -174,55 +140,45 @@
 
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--border);">
     <div class="feature-card">
-      <div style="font-family:var(--font-mono);font-size:24px;color:var(--accent);margin-bottom:16px;">01</div>
-      <h3 style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--text);margin:0 0 10px;">Self-describing</h3>
-      <p style="font-size:14px;line-height:1.65;color:var(--text-muted);margin:0;">
-        The header encodes the recordset name and every column. No schema file needed.
-      </p>
+      <div class="feature-num">01</div>
+      <h3 class="feature-h3">Self-describing</h3>
+      <p class="feature-p">The header encodes the recordset name and every column. No schema file needed.</p>
     </div>
     <div class="feature-card">
-      <div style="font-family:var(--font-mono);font-size:24px;color:var(--accent);margin-bottom:16px;">02</div>
-      <h3 style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--text);margin:0 0 10px;">Deterministic</h3>
-      <p style="font-size:14px;line-height:1.65;color:var(--text-muted);margin:0;">
-        Fixed column order and JSON encoding rules mean identical data always produces identical bytes.
-      </p>
+      <div class="feature-num">02</div>
+      <h3 class="feature-h3">Deterministic</h3>
+      <p class="feature-p">Fixed column order and JSON encoding rules mean identical data always produces identical bytes.</p>
     </div>
     <div class="feature-card">
-      <div style="font-family:var(--font-mono);font-size:24px;color:var(--accent);margin-bottom:16px;">03</div>
-      <h3 style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--text);margin:0 0 10px;">Git-native</h3>
-      <p style="font-size:14px;line-height:1.65;color:var(--text-muted);margin:0;">
-        One field per line means diffs are surgical. Cherry-picks and rebases work cleanly.
-      </p>
+      <div class="feature-num">03</div>
+      <h3 class="feature-h3">Git-native</h3>
+      <p class="feature-p">One field per line means diffs are surgical. Cherry-picks and rebases work cleanly.</p>
     </div>
     <div class="feature-card">
-      <div style="font-family:var(--font-mono);font-size:24px;color:var(--accent);margin-bottom:16px;">04</div>
-      <h3 style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--text);margin:0 0 10px;">JSON-typed</h3>
-      <p style="font-size:14px;line-height:1.65;color:var(--text-muted);margin:0;">
-        All values are single-line JSON: strings, numbers, booleans, null, objects, arrays.
-      </p>
+      <div class="feature-num">04</div>
+      <h3 class="feature-h3">JSON-typed</h3>
+      <p class="feature-p">All values are single-line JSON: strings, numbers, booleans, null, objects, arrays.</p>
     </div>
   </div>
 </section>
 
 <!-- ── SYNTAX EXAMPLE ──────────────────────────────────────────────────────── -->
-<section style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:80px 32px;">
-  <div style="max-width:1100px;margin:0 auto;">
-    <p style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:var(--accent);margin:0 0 16px;">Format anatomy</p>
-    <h2 style="font-family:var(--font-display);font-size:36px;font-weight:700;line-height:1.2;color:var(--text);margin:0 0 48px;">
-      Readable by humans. Trivial to parse.
-    </h2>
+<section class="full-bleed">
+  <div class="section-inner">
+    <p class="section-label">Format anatomy</p>
+    <h2 class="section-h2">Readable by humans. Trivial to parse.</h2>
   </div>
-  <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:64px;align-items:stretch;" class="format-anatomy-grid">
+  <div class="section-inner format-anatomy-grid" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:64px;align-items:stretch;">
     <div style="display:flex;flex-direction:column;">
       <ul class="format-anatomy-list" style="list-style:none;padding:12px 0 41px;margin:0;display:flex;flex-direction:column;justify-content:space-between;gap:32px;flex:1;">
         <li class="anatomy-item" data-section="header" style="display:flex;gap:12px;align-items:flex-start;cursor:pointer;">
-          <span class="anatomy-badge" style="font-family:var(--font-mono);font-size:11px;color:var(--accent);background:var(--accent-dim);padding:2px 8px;flex-shrink:0;">HEADER</span><span style="font-size:14px;line-height:1.6;color:var(--text-muted);">One line. Declares the recordset name and columns with <code style="font-family:var(--font-mono);color:var(--accent);">$ID</code> as the primary key.</span>
+          <span class="anatomy-badge" style="font-family:var(--font-mono);font-size:11px;color:var(--accent);background:var(--accent-dim);padding:2px 8px;flex-shrink:0;">HEADER</span><span class="anatomy-desc">One line. Declares the recordset name and columns with <code style="font-family:var(--font-mono);color:var(--accent);">$ID</code> as the primary key.</span>
         </li>
         <li class="anatomy-item" data-section="records" style="display:flex;gap:12px;align-items:flex-start;cursor:pointer;">
-          <span class="anatomy-badge" style="font-family:var(--font-mono);font-size:11px;color:var(--teal);background:var(--teal-dim);padding:2px 8px;flex-shrink:0;">RECORDS</span><span style="font-size:14px;line-height:1.6;color:var(--text-muted);">N lines per record, one JSON value each. Optional <code style="font-family:var(--font-mono);color:var(--text-subtle);">#</code> delimiter lines between records.</span>
+          <span class="anatomy-badge" style="font-family:var(--font-mono);font-size:11px;color:var(--teal);background:var(--teal-dim);padding:2px 8px;flex-shrink:0;">RECORDS</span><span class="anatomy-desc">N lines per record, one JSON value each. Optional <code style="font-family:var(--font-mono);color:var(--text-subtle);">#</code> delimiter lines between records.</span>
         </li>
         <li class="anatomy-item" data-section="footer" style="display:flex;gap:12px;align-items:flex-start;cursor:pointer;">
-          <span class="anatomy-badge" style="font-family:var(--font-mono);font-size:11px;color:#9090C0;background:#1E1E30;padding:2px 8px;flex-shrink:0;">FOOTER</span><span style="font-size:14px;line-height:1.6;color:var(--text-muted);">Record count for validation. Optional digest lines.</span>
+          <span class="anatomy-badge" style="font-family:var(--font-mono);font-size:11px;color:#9090C0;background:#1E1E30;padding:2px 8px;flex-shrink:0;">FOOTER</span><span class="anatomy-desc">Record count for validation. Optional digest lines.</span>
         </li>
       </ul>
     </div>
@@ -236,22 +192,10 @@
 <span class="string">"carol"</span>
 <span class="string">"Carol Wu"</span>
 <span class="number">31</span></span><span class="code-section" data-section="footer"><span class="comment"># 3 records</span></span></div>
-      <p style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-top:12px;">
-        3 columns × 3 records = 9 data lines + 1 header + 1 footer
-      </p>
+      <p class="mono-note" style="margin-top:12px;">3 columns × 3 records = 9 data lines + 1 header + 1 footer</p>
     </div>
   </div>
 </section>
-
-<style>
-.anatomy-item { transition: opacity 0.15s, background-color 0.15s; }
-.code-section { display:block; transition: opacity 0.15s, background-color 0.15s; }
-.code-section .comment { transition: color 0.15s; }
-.format-anatomy-list.is-hovering .anatomy-item:not(.hovered),
-#anatomy-code.is-hovering .code-section:not(.hovered) { opacity: 0.25; }
-.code-section.hovered, .anatomy-item.hovered { background: rgba(255,255,255,0.05); }
-.code-section.hovered .comment { color: #A0A0C0; }
-</style>
 <script>
 {
   const items = document.querySelectorAll('.anatomy-item');
@@ -284,11 +228,9 @@
 </script>
 
 <!-- ── GIT DIFF SHOWCASE ───────────────────────────────────────────────────── -->
-<section style="padding:80px 32px;max-width:1100px;margin:0 auto;">
-  <p style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:var(--accent);margin:0 0 16px;">Why it matters</p>
-  <h2 style="font-family:var(--font-display);font-size:36px;font-weight:700;line-height:1.2;color:var(--text);margin:0 0 48px;max-width:600px;">
-    Every change is exactly one changed line.
-  </h2>
+<section class="section-wrap">
+  <p class="section-label">Why it matters</p>
+  <h2 class="section-h2" style="max-width:600px;">Every change is exactly one changed line.</h2>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;">
     <div>
       <p style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--error);margin:0 0 10px;">JSON diff (noisy)</p>
@@ -310,10 +252,10 @@
 </section>
 
 <!-- ── CONVERTER CTA ───────────────────────────────────────────────────────── -->
-<section style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:80px 32px;">
-  <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;">
+<section class="full-bleed">
+  <div class="section-inner" style="display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;">
     <div>
-      <p style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:var(--accent);margin:0 0 16px;">Online tool</p>
+      <p class="section-label">Online tool</p>
       <h2 style="font-family:var(--font-display);font-size:clamp(28px,4vw,48px);font-weight:800;line-height:1.15;color:var(--text);margin:0 0 16px;">
         Convert your data to INGR<br/>— and back.
       </h2>
@@ -337,11 +279,9 @@
 </section>
 
 <!-- ── LIBRARIES ──────────────────────────────────────────────────────────── -->
-<section style="padding:80px 32px;max-width:1100px;margin:0 auto;">
-  <p style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:var(--accent);margin:0 0 16px;">Libraries</p>
-  <h2 style="font-family:var(--font-display);font-size:36px;font-weight:700;line-height:1.2;color:var(--text);margin:0 0 40px;">
-    Ready-to-use in your language.
-  </h2>
+<section class="section-wrap">
+  <p class="section-label">Libraries</p>
+  <h2 class="section-h2" style="margin-bottom:40px;">Ready-to-use in your language.</h2>
 
   <!-- Two-column layout: lib cards left, AI prompt right -->
   <div style="display:grid;grid-template-columns:280px 1fr;gap:1px;background:var(--border);align-items:stretch;">
@@ -351,30 +291,30 @@
 
       <a href="https://github.com/ingr-io/ingr-go" target="_blank" rel="noopener"
          class="feature-card" style="text-decoration:none;display:block;">
-        <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--teal);margin-bottom:8px;">Go</div>
-        <div style="font-family:var(--font-mono);font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">ingr-go</div>
-        <div style="font-family:var(--font-mono);font-size:10px;color:var(--accent);margin-top:10px;">ingr-io/ingr-go ↗</div>
+        <div class="lib-lang">Go</div>
+        <div class="lib-name">ingr-go</div>
+        <div class="lib-link">ingr-io/ingr-go ↗</div>
       </a>
 
       <a href="https://github.com/ingr-io/ingr-js" target="_blank" rel="noopener"
          class="feature-card" style="text-decoration:none;display:block;">
-        <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--teal);margin-bottom:8px;">JavaScript / TypeScript</div>
-        <div style="font-family:var(--font-mono);font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">ingr-js</div>
-        <div style="font-family:var(--font-mono);font-size:10px;color:var(--accent);margin-top:10px;">ingr-io/ingr-js ↗</div>
+        <div class="lib-lang">JavaScript / TypeScript</div>
+        <div class="lib-name">ingr-js</div>
+        <div class="lib-link">ingr-io/ingr-js ↗</div>
       </a>
 
       <a href="https://github.com/ingr-io/ingr-py" target="_blank" rel="noopener"
          class="feature-card" style="text-decoration:none;display:block;">
-        <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--teal);margin-bottom:8px;">Python</div>
-        <div style="font-family:var(--font-mono);font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">ingr-py</div>
-        <div style="font-family:var(--font-mono);font-size:10px;color:var(--accent);margin-top:10px;">ingr-io/ingr-py ↗</div>
+        <div class="lib-lang">Python</div>
+        <div class="lib-name">ingr-py</div>
+        <div class="lib-link">ingr-io/ingr-py ↗</div>
       </a>
 
       <a href="https://github.com/ingr-io/ingr-dotnet" target="_blank" rel="noopener"
          class="feature-card" style="text-decoration:none;display:block;">
-        <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--teal);margin-bottom:8px;">.NET / C#</div>
-        <div style="font-family:var(--font-mono);font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">ingr-dotnet</div>
-        <div style="font-family:var(--font-mono);font-size:10px;color:var(--accent);margin-top:10px;">ingr-io/ingr-dotnet ↗</div>
+        <div class="lib-lang">.NET / C#</div>
+        <div class="lib-name">ingr-dotnet</div>
+        <div class="lib-link">ingr-io/ingr-dotnet ↗</div>
       </a>
 
     </div>
@@ -382,10 +322,8 @@
     <!-- Right: AI prompt block -->
     <div style="display:flex;flex-direction:column;background:var(--surface);">
       <div style="background:var(--surface-2);padding:20px 24px;border-bottom:1px solid var(--border);">
-        <p style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:var(--accent);margin:0 0 8px;">Don't see your language?</p>
-        <h3 style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--text);margin:0 0 8px;">
-          Generate one with AI.
-        </h3>
+        <p class="section-label" style="margin-bottom:8px;">Don't see your language?</p>
+        <h3 class="feature-h3" style="margin-bottom:8px;">Generate one with AI.</h3>
         <p style="font-size:13px;line-height:1.6;color:var(--text-muted);margin:0;display:flex;align-items:center;flex-wrap:wrap;gap:6px;">
           Copy a prompt for
           <input id="lang-input" type="text" placeholder="YOUR LANGUAGE"
@@ -416,40 +354,33 @@
 
   </div>
 
-  <style>
-  @media (max-width:680px) {
-    #libs-grid { grid-template-columns: 1fr !important; }
-  }
-  </style>
 </section>
 
 
 <!-- ── SPEC HIGHLIGHTS ─────────────────────────────────────────────────────── -->
-<section style="padding:80px 32px;max-width:1100px;margin:0 auto;">
-  <p style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:var(--accent);margin:0 0 16px;">Specification</p>
-  <h2 style="font-family:var(--font-display);font-size:36px;font-weight:700;line-height:1.2;color:var(--text);margin:0 0 48px;">
-    The rules are simple.<br/>The guarantees are strong.
-  </h2>
+<section class="section-wrap">
+  <p class="section-label">Specification</p>
+  <h2 class="section-h2">The rules are simple.<br/>The guarantees are strong.</h2>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;">
     <div>
-      <p style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--teal);margin:0 0 12px;">Encoding</p>
-      <ul style="font-size:14px;line-height:1.8;color:var(--text-muted);padding-left:20px;margin:0;">
+      <p class="spec-category">Encoding</p>
+      <ul class="spec-list">
         <li>UTF-8 with LF line endings</li>
         <li>All values are valid single-line JSON</li>
         <li>No trailing newline on the final line</li>
       </ul>
     </div>
     <div>
-      <p style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--teal);margin:0 0 12px;">Structure</p>
-      <ul style="font-size:14px;line-height:1.8;color:var(--text-muted);padding-left:20px;margin:0;">
+      <p class="spec-category">Structure</p>
+      <ul class="spec-list">
         <li>Header → Records → Footer</li>
         <li><code style="font-family:var(--font-mono);">$ID</code> is the reserved primary key column</li>
         <li>Optional <code style="font-family:var(--font-mono);">#</code> delimiters between records</li>
       </ul>
     </div>
     <div>
-      <p style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--teal);margin:0 0 12px;">Validation</p>
-      <ul style="font-size:14px;line-height:1.8;color:var(--text-muted);padding-left:20px;margin:0;">
+      <p class="spec-category">Validation</p>
+      <ul class="spec-list">
         <li>Footer records count is machine-verifiable</li>
         <li><code style="font-family:var(--font-mono);">(data_lines % N) === 0</code></li>
         <li>Optional hash digest for integrity checks</li>
@@ -465,15 +396,12 @@
 </section>
 
 <!-- ── FOOTER ──────────────────────────────────────────────────────────────── -->
-<footer style="border-top:1px solid var(--border);padding:24px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
-  <span style="font-family:var(--font-mono);font-size:11px;color:var(--text-subtle);">INGR File Format</span>
+<footer class="site-footer">
+  <span class="footer-link" style="cursor:default;">INGR File Format</span>
   <div style="display:flex;gap:24px;">
     <a href="https://github.com/ingr-io/ingr-file-format" target="_blank" rel="noopener"
-       style="font-family:var(--font-mono);font-size:11px;color:var(--text-subtle);text-decoration:none;"
-       onmouseover="this.style.color='var(--text-muted)'" onmouseout="this.style.color='var(--text-subtle)'">Spec</a>
-    <a href="/converter/"
-       style="font-family:var(--font-mono);font-size:11px;color:var(--text-subtle);text-decoration:none;"
-       onmouseover="this.style.color='var(--text-muted)'" onmouseout="this.style.color='var(--text-subtle)'">Converter</a>
+       class="footer-link">Spec</a>
+    <a href="/converter/" class="footer-link">Converter</a>
   </div>
 </footer>
 
