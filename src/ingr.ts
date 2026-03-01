@@ -74,7 +74,7 @@ export function serializeIngr(data: IngrFile, delimiter = false): string {
       const key = col.replace(/^\$/, '')
       lines.push(JSON.stringify(records[i][key] ?? null))
     }
-    if (delimiter && i < records.length - 1) lines.push('#')
+    if (delimiter && i < records.length - 1) lines.push('#-')
   }
 
   const count = records.length
