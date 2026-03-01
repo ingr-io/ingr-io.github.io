@@ -1,7 +1,22 @@
 import{c as x,F as P,h as q}from"./highlight-DXJTHkoR.js";const O=["json","jsonl","csv","tsv","yaml","xml"],B={json:`[
-  { "$id": "u1", "name": "Alice Chen", "role": "engineer", "active": true },
-  { "$id": "u2", "name": "Bob Marsh",  "role": "designer", "active": true },
-  { "$id": "u3", "name": "Carol Wu",   "role": "manager",  "active": false }
+  {
+    "$id": "u1",
+    "name": "Alice Chen",
+    "role": "engineer",
+    "active": true
+  },
+  {
+    "$id": "u2",
+    "name": "Bob Marsh",
+    "role": "designer",
+    "active": true
+  },
+  {
+    "$id": "u3",
+    "name": "Carol Wu",
+    "role": "manager",
+    "active": false
+  }
 ]`,jsonl:`{"$id":"u1","name":"Alice Chen","role":"engineer","active":true}
 {"$id":"u2","name":"Bob Marsh","role":"designer","active":true}
 {"$id":"u3","name":"Carol Wu","role":"manager","active":false}`,csv:`$id,name,role,active

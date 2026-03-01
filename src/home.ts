@@ -7,9 +7,24 @@ const INPUT_FORMATS: Format[] = ['json', 'jsonl', 'csv', 'tsv', 'yaml', 'xml']
 
 const SAMPLES: Record<string, string> = {
   json: `[
-  { "$id": "u1", "name": "Alice Chen", "role": "engineer", "active": true },
-  { "$id": "u2", "name": "Bob Marsh",  "role": "designer", "active": true },
-  { "$id": "u3", "name": "Carol Wu",   "role": "manager",  "active": false }
+  {
+    "$id": "u1",
+    "name": "Alice Chen",
+    "role": "engineer",
+    "active": true
+  },
+  {
+    "$id": "u2",
+    "name": "Bob Marsh",
+    "role": "designer",
+    "active": true
+  },
+  {
+    "$id": "u3",
+    "name": "Carol Wu",
+    "role": "manager",
+    "active": false
+  }
 ]`,
   jsonl: `{"$id":"u1","name":"Alice Chen","role":"engineer","active":true}
 {"$id":"u2","name":"Bob Marsh","role":"designer","active":true}
