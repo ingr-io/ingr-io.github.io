@@ -1,4 +1,4 @@
-import{c as x,F as P,h as q}from"./highlight-DXJTHkoR.js";const O=["json","jsonl","csv","tsv","yaml","xml"],B={json:`[
+import{c as x,F as P,h as q}from"./highlight-BdUw06CL.js";const O=["json","jsonl","csv","tsv","yaml","xml"],B={json:`[
   {
     "$id": "u1",
     "name": "Alice Chen",
