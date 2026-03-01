@@ -7,30 +7,30 @@ const INPUT_FORMATS: Format[] = ['json', 'jsonl', 'csv', 'tsv', 'yaml', 'xml']
 
 const SAMPLES: Record<string, string> = {
   json: `[
-  { "id": "u1", "name": "Alice Chen", "role": "engineer", "active": true },
-  { "id": "u2", "name": "Bob Marsh",  "role": "designer", "active": true },
-  { "id": "u3", "name": "Carol Wu",   "role": "manager",  "active": false }
+  { "$id": "u1", "name": "Alice Chen", "role": "engineer", "active": true },
+  { "$id": "u2", "name": "Bob Marsh",  "role": "designer", "active": true },
+  { "$id": "u3", "name": "Carol Wu",   "role": "manager",  "active": false }
 ]`,
-  jsonl: `{"id":"u1","name":"Alice Chen","role":"engineer","active":true}
-{"id":"u2","name":"Bob Marsh","role":"designer","active":true}
-{"id":"u3","name":"Carol Wu","role":"manager","active":false}`,
-  csv: `id,name,role,active
+  jsonl: `{"$id":"u1","name":"Alice Chen","role":"engineer","active":true}
+{"$id":"u2","name":"Bob Marsh","role":"designer","active":true}
+{"$id":"u3","name":"Carol Wu","role":"manager","active":false}`,
+  csv: `$id,name,role,active
 u1,Alice Chen,engineer,true
 u2,Bob Marsh,designer,true
 u3,Carol Wu,manager,false`,
-  tsv: `id\tname\trole\tactive
+  tsv: `$id\tname\trole\tactive
 u1\tAlice Chen\tengineer\ttrue
 u2\tBob Marsh\tdesigner\ttrue
 u3\tCarol Wu\tmanager\tfalse`,
-  yaml: `- id: u1
+  yaml: `- $id: u1
   name: Alice Chen
   role: engineer
   active: true
-- id: u2
+- $id: u2
   name: Bob Marsh
   role: designer
   active: true
-- id: u3
+- $id: u3
   name: Carol Wu
   role: manager
   active: false`,
@@ -45,10 +45,8 @@ u3\tCarol Wu\tmanager\tfalse`,
 function formatBytes(bytes: number): string {
   if (bytes === 0) return '0 bytes'
   const absBytes = Math.abs(bytes)
-  
   const mb = absBytes / (1024 * 1024)
   const kb = absBytes / 1024
-  
   if (absBytes >= 1024 * 1024) {
     const rounded = Math.round(mb * 10) / 10
     return rounded === Math.floor(rounded) ? `${Math.floor(rounded)}MB` : `${rounded}MB`
@@ -62,177 +60,240 @@ function formatBytes(bytes: number): string {
 
 function getDataSize(text: string, format: Format | null): number {
   if (!text || !format) return 0
-  
   if (format === 'ingr') {
-    // Calculate data size excluding header before colon and footer
     const colonMatch = text.match(/:\s*/)
     if (!colonMatch) return 0
     const afterColonPos = colonMatch.index! + colonMatch[0].length
-    
     const lines = text.split('\n')
     let footerLineIndex = -1
     for (let i = lines.length - 1; i > 0; i--) {
-      if (lines[i].startsWith('#')) {
-        footerLineIndex = i
-        break
-      }
+      if (lines[i].startsWith('#')) { footerLineIndex = i; break }
     }
-    
     let beforeFooterPos = text.length
     if (footerLineIndex > 0) {
       const footerLinePos = text.indexOf(lines[footerLineIndex])
       beforeFooterPos = text.lastIndexOf('\n', footerLinePos)
     }
-    
     return beforeFooterPos - afterColonPos
   }
-  
   return text.length
 }
 
 function updateSizeInfo(inputSize: number, outputSize: number, output?: string) {
   const sizeInfoEl = document.getElementById('hero-size-info')!
   const sizeChangeEl = document.getElementById('hero-size-change')!
-  
-  if (!outputSize || !inputSize) {
-    sizeInfoEl.style.display = 'none'
-    return
-  }
-  
-  // For INGR format, exclude header before colon and footer from size calculation
+  if (!outputSize || !inputSize) { sizeInfoEl.style.display = 'none'; return }
   let dataSizeForCalc = outputSize
   if (output) {
-    // Find position after colon and trailing whitespace
     const colonMatch = output.match(/:\s*/)
     if (colonMatch) {
       const afterColonPos = colonMatch.index! + colonMatch[0].length
-      
-      // Find footer line (first line from end starting with '#', skip header line 0)
       const lines = output.split('\n')
       let footerLineIndex = -1
       for (let i = lines.length - 1; i > 0; i--) {
-        if (lines[i].startsWith('#')) {
-          footerLineIndex = i
-          break
-        }
+        if (lines[i].startsWith('#')) { footerLineIndex = i; break }
       }
-      
-      // Position of newline before footer line (or end if no footer)
       let beforeFooterPos = output.length
       if (footerLineIndex > 0) {
         const footerLinePos = output.indexOf(lines[footerLineIndex])
         beforeFooterPos = output.lastIndexOf('\n', footerLinePos)
       }
-      
       dataSizeForCalc = beforeFooterPos - afterColonPos
     }
   }
-  
   const diff = dataSizeForCalc - inputSize
   const percent = Math.round((diff / inputSize) * 100)
   const color = diff < 0 ? 'var(--success)' : 'var(--error)'
   const label = diff < 0 ? 'Data size saved' : 'Data size increased'
-  
-  sizeChangeEl.innerHTML = `
-    <span style="color:${color};">${label} <strong>${Math.abs(percent)}%</strong> (<span style="color:${color};">${formatBytes(Math.abs(diff))}</span>)</span>
-  `
+  sizeChangeEl.innerHTML = `<span style="color:${color};">${label} <strong>${Math.abs(percent)}%</strong> (<span style="color:${color};">${formatBytes(Math.abs(diff))}</span>)</span>`
   sizeInfoEl.style.display = 'block'
 }
 
 function init() {
-  const tabsEl = document.getElementById('hero-tabs')!
-  const inputEl = document.getElementById('hero-input') as HTMLTextAreaElement
-  const outputEl = document.getElementById('hero-output') as HTMLPreElement
-  const convertBtn = document.getElementById('hero-convert')!
-  const swapBtn = document.getElementById('hero-swap')!
-  const delimiterEl = document.getElementById('hero-delimiter') as HTMLInputElement
-  const sha256El = document.getElementById('hero-sha256') as HTMLInputElement
-  const inputSizeEl = document.getElementById('hero-input-size')!
+  const leftPanelEl  = document.getElementById('hero-left-panel')!
+  const rightPanelEl = document.getElementById('hero-right-panel')!
+  const leftTitleEl  = document.getElementById('hero-left-title')!
+  const rightTitleEl = document.getElementById('hero-right-title')!
+  const leftTabsEl   = document.getElementById('hero-tabs')!
+  const rightTabsEl  = document.getElementById('hero-right-tabs')!
+  const ingrControlsEl = document.getElementById('hero-ingr-controls')!
+  const inputEl      = document.getElementById('hero-input') as HTMLTextAreaElement
+  const outputEl     = document.getElementById('hero-output') as HTMLPreElement
+  const convertBtn   = document.getElementById('hero-convert')!
+  const swapBtn      = document.getElementById('hero-swap')!
+  const delimiterEl  = document.getElementById('hero-delimiter') as HTMLInputElement
+  const sha256El     = document.getElementById('hero-sha256') as HTMLInputElement
+  const inputSizeEl  = document.getElementById('hero-input-size')!
   const outputSizeEl = document.getElementById('hero-output-size')!
 
-  let currentFormat: Format = 'json'
+  // Single source of truth: selectedFormat tracks the non-INGR format
+  let selectedFormat: Format = 'json'
+  let isIngr = false // false = format→INGR (normal), true = INGR→format (swapped)
+  let lastRawIngr = ''  // last raw INGR output text, used when swapping
 
-  function setFormat(fmt: Format) {
-    currentFormat = fmt
-    inputEl.value = SAMPLES[fmt] ?? ''
-    outputEl.innerHTML = ''
-    outputEl.classList.remove('error')
-    // Update tab UI
-    tabsEl.querySelectorAll('.format-tab').forEach(t => {
-      t.classList.toggle('active', (t as HTMLElement).dataset.fmt === fmt)
-    })
-    updateInputSize()
+  // ── Tab builders ──────────────────────────────────────────────────────────
+
+  function buildLeftTabs() {
+    leftTabsEl.innerHTML = INPUT_FORMATS.map(fmt =>
+      `<button class="format-tab${fmt === selectedFormat ? ' active' : ''}" data-fmt="${fmt}">${FORMAT_LABELS[fmt]}</button>`
+    ).join('')
   }
 
+  function buildRightTabs() {
+    rightTabsEl.innerHTML = INPUT_FORMATS.map(fmt =>
+      `<button class="format-tab${fmt === selectedFormat ? ' active' : ''}" data-fmt="${fmt}">${FORMAT_LABELS[fmt]}</button>`
+    ).join('')
+  }
+
+  function syncTabsActive(container: HTMLElement) {
+    container.querySelectorAll('.format-tab').forEach(t => {
+      (t as HTMLElement).classList.toggle('active', (t as HTMLElement).dataset.fmt === selectedFormat)
+    })
+  }
+
+  // ── Size helpers ──────────────────────────────────────────────────────────
+
   function updateInputSize() {
-    const size = getDataSize(inputEl.value, currentFormat)
+    const fmt = isIngr ? 'ingr' : selectedFormat
+    const size = getDataSize(inputEl.value, fmt as Format)
     inputSizeEl.textContent = size > 0 ? `(${formatBytes(size)})` : ''
   }
 
   function updateOutputSize(text: string) {
-    const size = getDataSize(text, 'ingr')
+    const fmt = isIngr ? selectedFormat : 'ingr'
+    const size = getDataSize(text, fmt as Format)
     outputSizeEl.textContent = size > 0 ? `(${formatBytes(size)})` : ''
   }
+
+  // ── Output rendering ──────────────────────────────────────────────────────
 
   function setOutput(text: string, isError = false) {
     outputEl.classList.toggle('error', isError)
     if (isError) {
       outputEl.textContent = text
-    } else {
+      outputSizeEl.textContent = ''
+    } else if (!isIngr) {
+      // Normal mode: INGR output with syntax highlighting
       outputEl.innerHTML = text ? highlightIngr(text) : ''
+      updateOutputSize(text)
+    } else {
+      // Swapped mode: plain format text
+      outputEl.textContent = text
+      updateOutputSize(text)
     }
   }
 
+  // ── Conversion ────────────────────────────────────────────────────────────
+
   async function runConvert() {
     try {
-      const options: ConvertOptions = { ingrDelimiter: delimiterEl.checked }
-      let result = convert(inputEl.value, currentFormat, 'ingr', options)
-      
-      if (sha256El.checked) {
-        const encoder = new TextEncoder()
-        const data = encoder.encode(result)
-        const hashBuffer = await crypto.subtle.digest('SHA-256', data)
-        const hashArray = Array.from(new Uint8Array(hashBuffer))
-        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('')
-        result = result + '\n# sha256:' + hashHex
+      if (!isIngr) {
+        // format → INGR
+        const options: ConvertOptions = { ingrDelimiter: delimiterEl.checked }
+        let result = convert(inputEl.value, selectedFormat, 'ingr', options)
+        if (sha256El.checked) {
+          const data = new TextEncoder().encode(result)
+          const hashBuffer = await crypto.subtle.digest('SHA-256', data)
+          const hashHex = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('')
+          result = result + '\n# sha256:' + hashHex
+        }
+        lastRawIngr = result
+        setOutput(result)
+        updateSizeInfo(new TextEncoder().encode(inputEl.value).length, new TextEncoder().encode(result).length, result)
+      } else {
+        // INGR → format
+        const result = convert(inputEl.value, 'ingr', selectedFormat, {})
+        setOutput(result)
+        document.getElementById('hero-size-info')!.style.display = 'none'
       }
-      
-      setOutput(result)
-      updateSizeInfo(new TextEncoder().encode(inputEl.value).length, new TextEncoder().encode(result).length, result)
-      updateOutputSize(result)
     } catch (e) {
       setOutput(e instanceof Error ? e.message : String(e), true)
     }
   }
 
-  // Build tabs
-  tabsEl.innerHTML = INPUT_FORMATS.map(fmt =>
-    `<button class="format-tab${fmt === currentFormat ? ' active' : ''}" data-fmt="${fmt}">${FORMAT_LABELS[fmt]}</button>`
-  ).join('')
+  // ── Panel state ───────────────────────────────────────────────────────────
 
-  tabsEl.addEventListener('click', e => {
+  const INGR_TITLE = '<b style="color:var(--text);">.INGR</b>'
+
+  function applyPanelState(ingrContent?: string) {
+    if (!isIngr) {
+      leftTitleEl.innerHTML  = '<b style="color:var(--text);">Input</b>'
+      rightTitleEl.innerHTML = `${INGR_TITLE} output`
+      leftTabsEl.style.display    = ''
+      rightTabsEl.style.display   = 'none'
+      ingrControlsEl.style.display = ''
+      inputEl.placeholder = 'Paste your data here…'
+      outputEl.dataset.placeholder = 'Converted INGR will appear here…'
+      inputEl.value = SAMPLES[selectedFormat] ?? ''
+      buildLeftTabs()
+    } else {
+      leftTitleEl.innerHTML  = `${INGR_TITLE} input`
+      rightTitleEl.innerHTML = '<b style="color:var(--text);">Output</b>'
+      leftTabsEl.style.display    = 'none'
+      rightTabsEl.style.display   = ''
+      ingrControlsEl.style.display = 'none'
+      inputEl.placeholder = 'Paste INGR data here…'
+      outputEl.dataset.placeholder = 'Converted output will appear here…'
+      if (ingrContent) inputEl.value = ingrContent
+      buildRightTabs()
+    }
+    outputEl.innerHTML = ''
+    outputEl.textContent = ''
+    updateInputSize()
+    runConvert()
+  }
+
+  // ── Swap with animation ───────────────────────────────────────────────────
+
+  swapBtn.addEventListener('click', async () => {
+    const ingrContent = !isIngr ? lastRawIngr : undefined
+
+    leftPanelEl.classList.add('is-swapping')
+    rightPanelEl.classList.add('is-swapping')
+
+    await new Promise(r => setTimeout(r, 180))
+
+    isIngr = !isIngr
+    applyPanelState(ingrContent)
+
+    leftPanelEl.classList.remove('is-swapping')
+    rightPanelEl.classList.remove('is-swapping')
+  })
+
+  // ── Event listeners ───────────────────────────────────────────────────────
+
+  leftTabsEl.addEventListener('click', e => {
     const btn = (e.target as HTMLElement).closest('.format-tab') as HTMLElement | null
-    if (btn?.dataset.fmt) { setFormat(btn.dataset.fmt as Format); runConvert() }
+    if (!btn?.dataset.fmt) return
+    selectedFormat = btn.dataset.fmt as Format
+    syncTabsActive(leftTabsEl)
+    inputEl.value = SAMPLES[selectedFormat] ?? ''
+    updateInputSize()
+    runConvert()
+  })
+
+  rightTabsEl.addEventListener('click', e => {
+    const btn = (e.target as HTMLElement).closest('.format-tab') as HTMLElement | null
+    if (!btn?.dataset.fmt) return
+    selectedFormat = btn.dataset.fmt as Format
+    syncTabsActive(rightTabsEl)
+    runConvert()
   })
 
   convertBtn.addEventListener('click', runConvert)
   delimiterEl.addEventListener('change', runConvert)
   sha256El.addEventListener('change', runConvert)
-  inputEl.addEventListener('input', updateInputSize)
 
-  swapBtn.addEventListener('click', () => {
-    const outVal = outputEl.textContent ?? ''
-    if (!outVal || outputEl.classList.contains('error')) return
-    inputEl.value = outVal
-    outputEl.innerHTML = ''
-    outputEl.classList.remove('error')
-    setFormat('ingr' as Format)
+  inputEl.addEventListener('input', () => {
+    updateInputSize()
+    if (isIngr) runConvert() // live update in swapped mode
   })
 
-  // Initial state
+  // ── Init ──────────────────────────────────────────────────────────────────
+
+  buildLeftTabs()
   inputEl.value = SAMPLES.json
   updateInputSize()
-  // Auto-run on load
   runConvert()
 }
 
