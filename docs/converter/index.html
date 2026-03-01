@@ -5,15 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Converter — INGR</title>
   <meta name="description" content="Convert between JSON, JSONL, CSV, TSV, YAML, XML and INGR format. Fully local, no server." />
-  <script type="module" crossorigin src="/assets/converter-9HDEd0Jh.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/highlight-C66q8xoc.js">
-  <link rel="stylesheet" crossorigin href="/assets/highlight-D5lwYpAg.css">
+  <script type="module" crossorigin src="/assets/converter-DZY-cObx.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/highlight-BsuZ_0cR.js">
+  <link rel="stylesheet" crossorigin href="/assets/highlight-J-aIga8l.css">
 </head>
-<body style="position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;">
+<body class="page-layout">
 
 <!-- ── HEADER ──────────────────────────────────────────────────────────────── -->
-<header style="border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:56px;flex-shrink:0;">
-  <a href="/" style="font-family:var(--font-mono);font-size:18px;font-weight:600;color:var(--accent);letter-spacing:-0.02em;text-decoration:none;">INGR</a>
+<header class="site-header">
+  <a href="/" class="site-logo">INGR</a>
   <span style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);">Converter</span>
 </header>
 
@@ -37,10 +37,10 @@
     <div style="background:var(--bg);display:flex;flex-direction:column;">
 
       <!-- Input header -->
-      <div style="background:var(--surface-2);padding:10px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0;">
+      <div class="panel-header" style="padding:10px 16px;justify-content:space-between;gap:12px;">
         <div style="display:flex;align-items:center;gap:8px;">
-          <span style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);"><b style="color:var(--text);">Input</b></span>
-          <span id="input-size" style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);font-style:italic;"></span>
+          <span class="panel-title" style="text-transform:uppercase;letter-spacing:0.1em;"><b style="color:var(--text);">Input</b></span>
+          <span id="input-size" class="size-label"></span>
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
           <label for="file-input" class="btn-ghost"
@@ -69,10 +69,10 @@
       </div>
 
       <!-- Convert button bar -->
-      <div style="padding:12px 16px;background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-shrink:0;">
+      <div class="panel-toolbar">
         <button id="convert-btn" class="btn-primary" style="font-size:12px;padding:10px 24px;">Convert</button>
         <button id="clear-btn" class="btn-ghost" style="font-size:10px;padding:8px 14px;">Clear</button>
-        <span id="detect-status" style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-left:auto;"></span>
+        <span id="detect-status" class="mono-note" style="margin-left:auto;"></span>
       </div>
     </div>
 
@@ -80,21 +80,19 @@
     <div style="background:var(--bg);display:flex;flex-direction:column;">
 
       <!-- Output header -->
-      <div style="background:var(--surface-2);padding:10px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;flex-shrink:0;">
+      <div class="panel-header" style="padding:10px 16px;justify-content:space-between;flex-wrap:wrap;gap:12px;">
         <div style="display:flex;align-items:center;gap:16px;">
           <div style="display:flex;align-items:center;gap:8px;">
-            <span style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);"><b style="color:var(--text);">Output</b></span>
-            <span id="output-size" style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);font-style:italic;"></span>
+            <span class="panel-title" style="text-transform:uppercase;letter-spacing:0.1em;"><b style="color:var(--text);">Output</b></span>
+            <span id="output-size" class="size-label"></span>
           </div>
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:10px;">
-            <input id="output-delimiter" type="checkbox"
-              style="accent-color:var(--accent);width:12px;height:12px;cursor:pointer;" />
-            <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);">Record delimiters</span>
+          <label class="checkbox-label">
+            <input id="output-delimiter" type="checkbox" class="checkbox-input" />
+            <span class="mono-sm">Record delimiters</span>
           </label>
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:10px;">
-            <input id="output-sha256" type="checkbox"
-              style="accent-color:var(--accent);width:12px;height:12px;cursor:pointer;" />
-            <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);">sha256</span>
+          <label class="checkbox-label">
+            <input id="output-sha256" type="checkbox" class="checkbox-input" />
+            <span class="mono-sm">sha256</span>
           </label>
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
@@ -120,31 +118,23 @@
         data-placeholder="Converted output will appear here…"></pre>
 
       <!-- Output footer bar -->
-      <div style="padding:12px 16px;background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-shrink:0;">
+      <div class="panel-toolbar">
         <span id="output-format-label" style="font-family:var(--font-mono);font-size:11px;color:var(--teal);"></span>
         <span id="output-stats" style="font-family:var(--font-mono);font-size:11px;color:var(--text-subtle);margin-left:auto;"></span>
       </div>
     </div>
   </div>
 
-  <style>
-  @media (max-width:720px) {
-    #converter-grid { grid-template-columns: 1fr !important; }
-  }
-  </style>
 </main>
 
 <!-- ── FOOTER ──────────────────────────────────────────────────────────────── -->
-<footer style="border-top:1px solid var(--border);padding:16px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;flex-shrink:0;">
+<footer class="site-footer" style="padding:16px 32px;gap:12px;flex-shrink:0;">
   <div style="display:flex;gap:20px;">
-    <a href="/"
-       style="font-family:var(--font-mono);font-size:11px;color:var(--text-subtle);text-decoration:none;"
-       onmouseover="this.style.color='var(--text-muted)'" onmouseout="this.style.color='var(--text-subtle)'">Home</a>
+    <a href="/" class="footer-link">Home</a>
     <a href="https://github.com/ingr-io/ingr-file-format" target="_blank" rel="noopener"
-       style="font-family:var(--font-mono);font-size:11px;color:var(--text-subtle);text-decoration:none;"
-       onmouseover="this.style.color='var(--text-muted)'" onmouseout="this.style.color='var(--text-subtle)'">Spec ↗</a>
+       class="footer-link">Spec ↗</a>
   </div>
-  <span style="font-family:var(--font-mono);font-size:11px;color:var(--text-subtle);">Local processing only</span>
+  <span class="footer-link" style="cursor:default;">Local processing only</span>
 </footer>
 
 </body>
