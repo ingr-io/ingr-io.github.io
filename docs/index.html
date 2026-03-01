@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>INGR — Compact Git-Friendly Record Format</title>
   <meta name="description" content="INGR is a compact, deterministic, self-describing, Git-friendly fixed-line record format for structured data." />
-  <script type="module" crossorigin src="/assets/main-kv1BJH9r.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/highlight-BNcuc9BJ.js">
-  <link rel="stylesheet" crossorigin href="/assets/highlight-_oGfd9lV.css">
+  <script type="module" crossorigin src="/assets/main-Cxiqz2VP.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/highlight-4uy85KZ6.js">
+  <link rel="stylesheet" crossorigin href="/assets/highlight-DhN1hvb2.css">
 </head>
 <body style="position:relative;z-index:1;">
 
@@ -139,6 +139,13 @@
     writing-mode:horizontal-tb !important;
     transform:none !important;
   }
+  .format-anatomy-list li {
+    display:block !important;
+  }
+  .anatomy-badge {
+    display:inline !important;
+    margin-right:6px;
+  }
 }
 </style>
 
@@ -199,31 +206,28 @@
 
 <!-- ── SYNTAX EXAMPLE ──────────────────────────────────────────────────────── -->
 <section style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:80px 32px;">
-  <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;">
-    <div>
-      <p style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:var(--accent);margin:0 0 16px;">Format anatomy</p>
-      <h2 style="font-family:var(--font-display);font-size:36px;font-weight:700;line-height:1.2;color:var(--text);margin:0 0 24px;">
-        Readable by humans.<br/>Trivial to parse.
-      </h2>
-      <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:16px;">
-        <li style="display:flex;gap:16px;align-items:flex-start;">
-          <span style="font-family:var(--font-mono);font-size:11px;color:var(--accent);background:var(--accent-dim);padding:2px 8px;flex-shrink:0;margin-top:2px;">HEADER</span>
-          <span style="font-size:14px;line-height:1.6;color:var(--text-muted);">One line. Declares the recordset name and columns with <code style="font-family:var(--font-mono);color:var(--accent);">$ID</code> as the primary key.</span>
+  <div style="max-width:1100px;margin:0 auto;">
+    <p style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:var(--accent);margin:0 0 16px;">Format anatomy</p>
+    <h2 style="font-family:var(--font-display);font-size:36px;font-weight:700;line-height:1.2;color:var(--text);margin:0 0 48px;">
+      Readable by humans. Trivial to parse.
+    </h2>
+  </div>
+  <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:64px;align-items:stretch;" class="format-anatomy-grid">
+    <div style="display:flex;flex-direction:column;">
+      <ul class="format-anatomy-list" style="list-style:none;padding:12px 0 41px;margin:0;display:flex;flex-direction:column;justify-content:space-between;gap:32px;flex:1;">
+        <li class="anatomy-item" data-section="header" style="display:flex;gap:12px;align-items:flex-start;cursor:pointer;">
+          <span class="anatomy-badge" style="font-family:var(--font-mono);font-size:11px;color:var(--accent);background:var(--accent-dim);padding:2px 8px;flex-shrink:0;">HEADER</span><span style="font-size:14px;line-height:1.6;color:var(--text-muted);">One line. Declares the recordset name and columns with <code style="font-family:var(--font-mono);color:var(--accent);">$ID</code> as the primary key.</span>
         </li>
-        <li style="display:flex;gap:16px;align-items:flex-start;">
-          <span style="font-family:var(--font-mono);font-size:11px;color:var(--teal);background:var(--teal-dim);padding:2px 8px;flex-shrink:0;margin-top:2px;">RECORDS</span>
-          <span style="font-size:14px;line-height:1.6;color:var(--text-muted);">N lines per record, one JSON value each. Optional <code style="font-family:var(--font-mono);color:var(--text-subtle);">#</code> delimiter lines between records.</span>
+        <li class="anatomy-item" data-section="records" style="display:flex;gap:12px;align-items:flex-start;cursor:pointer;">
+          <span class="anatomy-badge" style="font-family:var(--font-mono);font-size:11px;color:var(--teal);background:var(--teal-dim);padding:2px 8px;flex-shrink:0;">RECORDS</span><span style="font-size:14px;line-height:1.6;color:var(--text-muted);">N lines per record, one JSON value each. Optional <code style="font-family:var(--font-mono);color:var(--text-subtle);">#</code> delimiter lines between records.</span>
         </li>
-        <li style="display:flex;gap:16px;align-items:flex-start;">
-          <span style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);background:var(--surface-2);padding:2px 8px;flex-shrink:0;margin-top:2px;">FOOTER</span>
-          <span style="font-size:14px;line-height:1.6;color:var(--text-muted);">Record count for validation. Optional digest lines.</span>
+        <li class="anatomy-item" data-section="footer" style="display:flex;gap:12px;align-items:flex-start;cursor:pointer;">
+          <span class="anatomy-badge" style="font-family:var(--font-mono);font-size:11px;color:#9090C0;background:#1E1E30;padding:2px 8px;flex-shrink:0;">FOOTER</span><span style="font-size:14px;line-height:1.6;color:var(--text-muted);">Record count for validation. Optional digest lines.</span>
         </li>
       </ul>
     </div>
-    <div>
-      <div class="code-block">
-<span class="comment"># INGR.io | people: $ID, name, age</span>
-<span class="string">"john"</span>
+    <div style="min-width:0;">
+      <div class="code-block" id="anatomy-code"><span class="code-section" data-section="header"><span class="comment"># INGR.io | people: $ID, name, age</span></span><span class="code-section" data-section="records"><span class="string">"john"</span>
 <span class="string">"John Doe"</span>
 <span class="number">35</span>
 <span class="string">"jane"</span>
@@ -231,14 +235,53 @@
 <span class="number">29</span>
 <span class="string">"carol"</span>
 <span class="string">"Carol Wu"</span>
-<span class="number">31</span>
-<span class="comment"># 3 records</span></div>
+<span class="number">31</span></span><span class="code-section" data-section="footer"><span class="comment"># 3 records</span></span></div>
       <p style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-top:12px;">
         3 columns × 3 records = 9 data lines + 1 header + 1 footer
       </p>
     </div>
   </div>
 </section>
+
+<style>
+.anatomy-item { transition: opacity 0.15s, background-color 0.15s; }
+.code-section { display:block; transition: opacity 0.15s, background-color 0.15s; }
+.code-section .comment { transition: color 0.15s; }
+.format-anatomy-list.is-hovering .anatomy-item:not(.hovered),
+#anatomy-code.is-hovering .code-section:not(.hovered) { opacity: 0.25; }
+.code-section.hovered, .anatomy-item.hovered { background: rgba(255,255,255,0.05); }
+.code-section.hovered .comment { color: #A0A0C0; }
+</style>
+<script>
+{
+  const items = document.querySelectorAll('.anatomy-item');
+  const sections = document.querySelectorAll('.code-section');
+  const list = document.querySelector('.format-anatomy-list');
+  const code = document.getElementById('anatomy-code');
+
+  function activate(key) {
+    list.classList.add('is-hovering');
+    code.classList.add('is-hovering');
+    items.forEach(el => el.classList.toggle('hovered', el.dataset.section === key));
+    sections.forEach(el => el.classList.toggle('hovered', el.dataset.section === key));
+  }
+  function deactivate() {
+    list.classList.remove('is-hovering');
+    code.classList.remove('is-hovering');
+    items.forEach(el => el.classList.remove('hovered'));
+    sections.forEach(el => el.classList.remove('hovered'));
+  }
+
+  items.forEach(el => {
+    el.addEventListener('mouseenter', () => activate(el.dataset.section));
+    el.addEventListener('mouseleave', deactivate);
+  });
+  sections.forEach(el => {
+    el.addEventListener('mouseenter', () => activate(el.dataset.section));
+    el.addEventListener('mouseleave', deactivate);
+  });
+}
+</script>
 
 <!-- ── GIT DIFF SHOWCASE ───────────────────────────────────────────────────── -->
 <section style="padding:80px 32px;max-width:1100px;margin:0 auto;">
