@@ -63,6 +63,24 @@ Contains a mini converter:
   will be stacked vertically. Buttons arrange horizontally with vertical arrows (⇓ and ⇑↓) instead of side-by-side
   horizontal layout.
 
+### Format anatomy section
+
+Explains the structure of an INGR file with an interactive two-column layout:
+
+- **Always 2 columns, 50/50 split** — never collapses to single column regardless of screen size.
+- **Left column**: HEADER, RECORDS, and FOOTER labels (styled inline badges) each followed by a short
+  description. The three blocks are distributed vertically with `justify-content: space-between` so
+  HEADER aligns with the first line of the code example and FOOTER aligns with the last line.
+  On small screens, badges flow inline before their description text and wrap naturally.
+- **Right column**: An annotated INGR code example. Horizontal scrolling is enabled if the content
+  is wider than the column — text never wraps.
+- **Hover interaction** — bidirectional highlighting:
+  - Hovering a text block (HEADER / RECORDS / FOOTER) dims the other two and highlights the
+    corresponding lines in the code example.
+  - Hovering a section of the code example dims the other sections and highlights the
+    corresponding text block on the left.
+  - Comment lines (HEADER / FOOTER) brighten their foreground color on highlight for contrast.
+
 ### Converter CTA section
 
 A dedicated section on the home page promoting the Converter page. Includes a brief description
