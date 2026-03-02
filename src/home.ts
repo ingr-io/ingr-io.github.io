@@ -10,50 +10,55 @@ const SAMPLES: Record<string, string> = {
   {
     "$id": "u1",
     "name": "Alice Chen",
-    "role": "engineer",
+    "roles": ["engineer", "architect"],
     "active": true
   },
   {
     "$id": "u2",
     "name": "Bob Marsh",
-    "role": "designer",
+    "roles": ["designer"],
     "active": true
   },
   {
     "$id": "u3",
     "name": "Carol Wu",
-    "role": "manager",
+    "roles": ["manager", "engineer"],
     "active": false
   }
 ]`,
-  jsonl: `{"$id":"u1","name":"Alice Chen","role":"engineer","active":true}
-{"$id":"u2","name":"Bob Marsh","role":"designer","active":true}
-{"$id":"u3","name":"Carol Wu","role":"manager","active":false}`,
-  csv: `$id,name,role,active
-u1,Alice Chen,engineer,true
+  jsonl: `{"$id":"u1","name":"Alice Chen","roles":["engineer","architect"],"active":true}
+{"$id":"u2","name":"Bob Marsh","roles":["designer"],"active":true}
+{"$id":"u3","name":"Carol Wu","roles":["manager","engineer"],"active":false}`,
+  csv: `$id,name,roles,active
+u1,Alice Chen,engineer;architect,true
 u2,Bob Marsh,designer,true
-u3,Carol Wu,manager,false`,
-  tsv: `$id\tname\trole\tactive
-u1\tAlice Chen\tengineer\ttrue
+u3,Carol Wu,manager;engineer,false`,
+  tsv: `$id\tname\troles\tactive
+u1\tAlice Chen\tengineer;architect\ttrue
 u2\tBob Marsh\tdesigner\ttrue
-u3\tCarol Wu\tmanager\tfalse`,
+u3\tCarol Wu\tmanager;engineer\tfalse`,
   yaml: `- $id: u1
   name: Alice Chen
-  role: engineer
+  roles:
+    - engineer
+    - architect
   active: true
 - $id: u2
   name: Bob Marsh
-  role: designer
+  roles:
+    - designer
   active: true
 - $id: u3
   name: Carol Wu
-  role: manager
+  roles:
+    - manager
+    - engineer
   active: false`,
   xml: `<?xml version="1.0" encoding="UTF-8"?>
 <users>
-  <user><id>u1</id><name>Alice Chen</name><role>engineer</role><active>true</active></user>
-  <user><id>u2</id><name>Bob Marsh</name><role>designer</role><active>true</active></user>
-  <user><id>u3</id><name>Carol Wu</name><role>manager</role><active>false</active></user>
+  <user><id>u1</id><name>Alice Chen</name><roles><role>engineer</role><role>architect</role></roles><active>true</active></user>
+  <user><id>u2</id><name>Bob Marsh</name><roles><role>designer</role></roles><active>true</active></user>
+  <user><id>u3</id><name>Carol Wu</name><roles><role>manager</role><role>engineer</role></roles><active>false</active></user>
 </users>`,
 }
 
