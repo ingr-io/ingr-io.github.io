@@ -1,4 +1,4 @@
-import { parseIngr, serializeIngr, fromObjects, type IngrFile } from './ingr'
+import { parseIngr, serializeIngr, fromObjects, type IngrFile } from '@ingr/codec'
 
 export type Format = 'ingr' | 'json' | 'jsonl' | 'csv' | 'tsv' | 'yaml' | 'xml' | 'markdown'
 
