@@ -88,6 +88,7 @@ function init() {
   const fileInput       = document.getElementById('file-input') as HTMLInputElement
   const delimiterCheck  = document.getElementById('output-delimiter') as HTMLInputElement
   const sha256Check     = document.getElementById('output-sha256') as HTMLInputElement
+  const converterGrid   = document.getElementById('converter-grid')!
 
   let inputFormat: Format | null = null
   let outputFormat: Format = (localStorage.getItem(OUTPUT_FORMAT_STORAGE_KEY) as Format) ?? 'ingr'
@@ -127,9 +128,15 @@ function init() {
     }
   }
 
+  function updateGridLayout() {
+    converterGrid.classList.toggle('ingr-left',  inputFormat === 'ingr')
+    converterGrid.classList.toggle('ingr-right', inputFormat !== 'ingr')
+  }
+
   function setInputFormat(fmt: Format | null, runConvert = false) {
     inputFormat = fmt
     buildInputTabs()
+    updateGridLayout()
 
     // If not INGR, auto-set output format
     if (fmt && fmt !== 'ingr') {

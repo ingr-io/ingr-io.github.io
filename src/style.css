@@ -581,13 +581,21 @@ body::before {
   }
 }
 
+/* Converter grid column widths — INGR panel is always wider */
+#converter-grid.ingr-right { grid-template-columns: 60% 40%; }
+#converter-grid.ingr-left  { grid-template-columns: 40% 60%; }
+
+/* Hero grid column widths — INGR panel is always narrow (middle col is swap button) */
+#hero-grid.ingr-right { grid-template-columns: 60fr auto 40fr; }
+#hero-grid.ingr-left  { grid-template-columns: 40fr auto 60fr; }
+
 /* Converter grid responsive */
-@media (max-width: 720px) {
+@media (max-width: 900px) {
   #converter-grid { grid-template-columns: 1fr !important; }
 }
 
 /* Hero grid responsive */
-@media (max-width: 680px) {
+@media (max-width: 900px) {
   #hero-grid { grid-template-columns: 1fr !important; }
   #hero-grid > div:nth-child(2) {
     flex-direction: row !important;
@@ -628,7 +636,7 @@ body::before {
 }
 
 /* Responsive: Converter grid on small screens */
-@media (max-width: 680px) {
+@media (max-width: 900px) {
   #converter-grid {
     grid-template-columns: 1fr !important;
   }

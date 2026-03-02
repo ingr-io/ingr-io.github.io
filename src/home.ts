@@ -125,6 +125,7 @@ function updateSizeInfo(inputSize: number, outputSize: number, output?: string) 
 }
 
 function init() {
+  const heroGridEl   = document.getElementById('hero-grid')!
   const leftPanelEl  = document.getElementById('hero-left-panel')!
   const rightPanelEl = document.getElementById('hero-right-panel')!
   const leftTitleEl  = document.getElementById('hero-left-title')!
@@ -269,6 +270,8 @@ function init() {
     await new Promise(r => setTimeout(r, 180))
 
     isIngr = !isIngr
+    heroGridEl.classList.toggle('ingr-right', !isIngr)
+    heroGridEl.classList.toggle('ingr-left',   isIngr)
     applyPanelState(ingrContent)
 
     leftPanelEl.classList.remove('is-swapping')
