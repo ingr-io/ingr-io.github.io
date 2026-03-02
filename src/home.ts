@@ -206,7 +206,7 @@ function init() {
 
   // ── Conversion ────────────────────────────────────────────────────────────
 
-  async function runConvert() {
+  async function runConvert(silent = false) {
     try {
       if (!isIngr) {
         // format → INGR
@@ -219,16 +219,23 @@ function init() {
           result = result + '\n# sha256:' + hashHex
         }
         lastRawIngr = result
+        outputEl.classList.remove('stale')
         setOutput(result)
         updateSizeInfo(new TextEncoder().encode(inputEl.value).length, new TextEncoder().encode(result).length, result)
       } else {
         // INGR → format
         const result = convert(inputEl.value, 'ingr', selectedFormat, {})
+        outputEl.classList.remove('stale')
         setOutput(result)
         document.getElementById('hero-size-info')!.style.display = 'none'
       }
     } catch (e) {
-      setOutput(e instanceof Error ? e.message : String(e), true)
+      if (silent) {
+        outputEl.classList.add('stale')
+      } else {
+        outputEl.classList.remove('stale')
+        setOutput(e instanceof Error ? e.message : String(e), true)
+      }
     }
   }
 
@@ -303,13 +310,13 @@ function init() {
     runConvert()
   })
 
-  convertBtn.addEventListener('click', runConvert)
-  delimiterEl.addEventListener('change', runConvert)
-  sha256El.addEventListener('change', runConvert)
+  convertBtn.addEventListener('click', () => runConvert())
+  delimiterEl.addEventListener('change', () => runConvert())
+  sha256El.addEventListener('change', () => runConvert())
 
   inputEl.addEventListener('input', () => {
     updateInputSize()
-    if (isIngr) runConvert() // live update in swapped mode
+    runConvert(true) // live silent update; errors only shown on Convert click
   })
 
   // ── Init ──────────────────────────────────────────────────────────────────

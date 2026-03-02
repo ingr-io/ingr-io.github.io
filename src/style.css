@@ -572,6 +572,10 @@ body::before {
 .flash-success {
   animation: flash-green 1s ease forwards;
 }
+.stale {
+  opacity: 0.35;
+  transition: opacity 0.15s ease;
+}
 
 /* Responsive: Libraries on small screens */
 @media (max-width: 900px) {
