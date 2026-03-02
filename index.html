@@ -6,6 +6,10 @@
   <title>.INGR — Compact Git-Friendly Record Format</title>
   <meta name="description" content="INGR is a compact, deterministic, self-describing, Git-friendly fixed-line record format for structured data." />
   <script type="module" src="/src/home.ts"></script>
+  <style>
+    .diff-grid { display: grid; grid-template-columns: 60% 40%; gap: 32px; }
+    @media (max-width: 768px) { .diff-grid { grid-template-columns: 70% 30%; } }
+  </style>
 </head>
 <body>
 
@@ -229,22 +233,28 @@
 <section class="section-wrap">
   <p class="section-label">Why it matters</p>
   <h2 class="section-h2" style="max-width:600px;">Every change is exactly one changed line.</h2>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;">
+  <div class="diff-grid">
     <div>
-      <p style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--error);margin:0 0 10px;">JSON diff (noisy)</p>
-      <div class="code-block" style="border-left-color:var(--error);font-size:12px;"><span style="color:var(--text-muted);">  {</span>
-<span style="color:var(--text-muted);">    "name": "John Doe",</span>
-<span style="color:var(--error);">-   "age": 35,</span>
-<span style="color:var(--success);">+   "age": 36,</span>
-<span style="color:var(--text-muted);">    "role": "engineer"</span>
-<span style="color:var(--text-muted);">  },</span></div>
+      <p style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--error);margin:0 0 10px;"><b>JSON diff</b> (<i>can be noisy</i>)</p>
+      <div class="code-block" style="border-left-color:var(--error);font-size:11px;"><span style="color:var(--text-muted);">  {"name": "alice", "role": "admin"},</span>
+<span style="color:var(--error);">- {"name": "bob", "role": "editor"},</span>
+<span style="color:var(--success);">+ {"name": "bob", "role": "viewer"},</span>
+<span style="color:var(--error);">- {"name": "carol", "role": "viewer"},</span>
+<span style="color:var(--success);">+ {"name": "carol", "role": "admin"},</span>
+<span style="color:var(--text-muted);">  {"name": "dave", "role": "editor"}</span></div>
     </div>
     <div>
       <p style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--success);margin:0 0 10px;">INGR diff (surgical)</p>
-      <div class="code-block" style="border-left-color:var(--success);font-size:12px;"><span style="color:var(--text-muted);">  "John Doe"</span>
-<span style="color:var(--error);">- 35</span>
-<span style="color:var(--success);">+ 36</span>
-<span style="color:var(--text-muted);">  "engineer"</span></div>
+      <div class="code-block" style="border-left-color:var(--success);font-size:11px;"><span style="color:var(--text-muted);">  "alice"</span>
+<span style="color:var(--text-muted);">  "admin"</span>
+<span style="color:var(--text-muted);">  "bob"</span>
+<span style="color:var(--error);">- "editor"</span>
+<span style="color:var(--success);">+ "viewer"</span>
+<span style="color:var(--text-muted);">  "carol"</span>
+<span style="color:var(--error);">- "viewer"</span>
+<span style="color:var(--success);">+ "admin"</span>
+<span style="color:var(--text-muted);">  "dave"</span>
+<span style="color:var(--text-muted);">  "editor"</span></div>
     </div>
   </div>
 </section>
