@@ -9,7 +9,8 @@
     <!-- Apply theme before first paint to avoid flash -->
     <script>
         (function () {
-            var t = localStorage.getItem('ingr-theme');
+            var hash = location.hash;
+            var t = hash === '#dark' ? 'dark' : hash === '#light' ? 'light' : localStorage.getItem('ingr-theme');
             if (t === 'light' || t === null) {
                 document.documentElement.setAttribute('data-theme', 'light');
             }

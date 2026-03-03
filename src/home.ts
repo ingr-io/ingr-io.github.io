@@ -355,9 +355,11 @@ function initTheme() {
     localStorage.setItem(STORAGE_KEY, theme)
   }
 
-  // Default: light mode; restore from localStorage if set
+  // Default: light mode; hash overrides localStorage; save result
+  const hash = location.hash
+  const fromHash = hash === '#dark' ? 'dark' : hash === '#light' ? 'light' : null
   const saved = localStorage.getItem(STORAGE_KEY) as 'dark' | 'light' | null
-  applyTheme(saved ?? 'light')
+  applyTheme(fromHash ?? saved ?? 'light')
 
   toggleBtn.addEventListener('click', () => {
     applyTheme(isDark() ? 'light' : 'dark')
