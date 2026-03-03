@@ -6,6 +6,15 @@
     <title>.INGR — Compact Git-Friendly Record Format</title>
     <meta name="description"
           content="INGR is a compact, deterministic, self-describing, Git-friendly fixed-line record format for structured data."/>
+    <!-- Apply theme before first paint to avoid flash -->
+    <script>
+        (function () {
+            var t = localStorage.getItem('ingr-theme');
+            if (t === 'light' || t === null) {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
     <script type="module" src="/src/home.ts"></script>
     <style>
         .diff-grid {
@@ -29,7 +38,7 @@
         }
 
         .sponsor-terminal {
-            background: #080809;
+            background: var(--bg);
             border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--border));
             border-radius: 8px;
             overflow: hidden;
@@ -130,8 +139,18 @@
            class="link-accent">Full specification ↗</a>
     </p>
 
+    <!-- Theme toggle -->
+    <div class="animate-fade-up delay-3" style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:12px;">
+        <div class="theme-toggle" id="theme-toggle" role="group" aria-label="Color theme">
+            <span class="theme-toggle__label" id="theme-label-dark">🌑 Dark</span>
+            <button class="theme-toggle__track" id="theme-toggle-btn" aria-label="Toggle theme" title="Toggle theme"></button>
+            <span class="theme-toggle__label" id="theme-label-light">☀️ Light</span>
+            <span class="theme-toggle__hint" id="theme-hint">Go dark, friend 😈</span>
+        </div>
+    </div>
+
     <!-- Mini converter -->
-    <div class="animate-fade-up delay-3 ingr-right" id="hero-grid"
+    <div class="animate-fade-up delay-4 ingr-right" id="hero-grid"
          style="display:grid;gap:0;border:1px solid var(--border);">
 
         <!-- Input -->
@@ -206,7 +225,7 @@
         <span id="hero-size-change"></span>
     </div>
 
-    <div class="animate-fade-up delay-4"
+    <div class="animate-fade-up delay-5"
          style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;flex-wrap:wrap;gap:8px;">
         <p class="mono-note">JSON · JSONL · CSV · TSV · YAML · XML → INGR</p>
         <a href="/converter/" class="link-accent"

@@ -327,4 +327,44 @@ function init() {
   runConvert()
 }
 
-document.addEventListener('DOMContentLoaded', init)
+// ── Theme toggle ──────────────────────────────────────────────────────────
+
+function initTheme() {
+  const STORAGE_KEY = 'ingr-theme'
+  const html = document.documentElement
+  const toggleBtn = document.getElementById('theme-toggle-btn')
+  const hint = document.getElementById('theme-hint')
+
+  if (!toggleBtn || !hint) return
+
+  function isDark(): boolean {
+    return html.getAttribute('data-theme') !== 'light'
+  }
+
+  function updateHint() {
+    hint!.textContent = isDark() ? 'Let it shine! ✨' : 'Go dark, friend 😈'
+  }
+
+  function applyTheme(theme: 'dark' | 'light') {
+    if (theme === 'light') {
+      html.setAttribute('data-theme', 'light')
+    } else {
+      html.removeAttribute('data-theme')
+    }
+    updateHint()
+    localStorage.setItem(STORAGE_KEY, theme)
+  }
+
+  // Default: light mode; restore from localStorage if set
+  const saved = localStorage.getItem(STORAGE_KEY) as 'dark' | 'light' | null
+  applyTheme(saved ?? 'light')
+
+  toggleBtn.addEventListener('click', () => {
+    applyTheme(isDark() ? 'light' : 'dark')
+  })
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  init()
+  initTheme()
+})
