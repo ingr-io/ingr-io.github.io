@@ -85,6 +85,14 @@ body { position: relative; z-index: 1; }
   backdrop-filter: blur(12px);
   z-index: 50;
 }
+.theme-toggle-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 8px 32px 0;
+  max-width: 1164px;
+  margin: 0 auto;
+}
 .site-logo {
   font-family: var(--font-mono);
   font-size: 18px;
