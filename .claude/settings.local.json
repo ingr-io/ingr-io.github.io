@@ -16,7 +16,10 @@
       "Bash(npm test:*)",
       "Bash(git checkout:*)",
       "Bash(lsof:*)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(git rm:*)",
+      "Bash(mkdir:*)",
+      "Bash(gh workflow:*)"
     ]
   }
 }

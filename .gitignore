@@ -23,4 +23,7 @@ docs/
 *.njsproj
 *.sln
 *.sw?
+
 package-lock.json
+.claude/settings.local.json
+
